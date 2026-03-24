@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OpenClaw Mission Control
 
-## Getting Started
+Mission Control is a multi-view control room for a coordinated AI office.
 
-First, run the development server:
+Current prototype includes screenshot-inspired views for:
+- Tasks
+- Calendar
+- Projects
+- Memory
+- Team
+- Office
 
+## What this repo is for
+This repo is **not** the Refined website and must stay separate from `refinedmedicalaestheticsuk`.
+
+Its purpose is to become the backend + UI control layer for:
+- manager orchestration
+- lane state
+- task routing
+- approvals
+- summaries
+- event history
+- Discord / Telegram relay
+
+## Current status
+Working now:
+- shared app shell
+- multi-page UI
+- local dev/build works
+- GitHub repo created and pushed
+
+Not built yet:
+- persistence
+- CRUD
+- real task/event store
+- manager logic
+- Telegram relay
+- Discord relay
+- agent-to-agent orchestration
+
+## Local development
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open:
+- `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
+```bash
+npm run build
+npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Main routes
+- `/tasks`
+- `/calendar`
+- `/projects`
+- `/memory`
+- `/team`
+- `/office`
 
-## Learn More
+## Fast deployment options
+### Option 1 — Vercel
+This is the easiest preview path for a Next.js app.
 
-To learn more about Next.js, take a look at the following resources:
+Steps:
+1. Import the repo into Vercel
+2. Framework: Next.js
+3. Build command: `npm run build`
+4. Output: default Next.js output
+5. Deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Option 2 — VPS / Docker / reverse proxy
+Use if you want Mission Control hosted inside the existing OpenClaw stack later.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Critical project rule
+Build the **operating system first**.
+Do not prioritise the pretty office over real workflow.
 
-## Deploy on Vercel
+That means the build order is:
+1. shared state
+2. task/event model
+3. manager orchestration
+4. approvals/summaries
+5. Discord + Telegram relay
+6. richer visuals
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Must-read project docs
+- `docs/ARCHITECTURE.md`
+- `docs/OPERATING-MEMORY.md`
+- `docs/BUILD-NEXT.md`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Core goal sentence
+> One instruction from Daniel becomes coordinated multi-lane execution, with only meaningful exceptions sent back to him.

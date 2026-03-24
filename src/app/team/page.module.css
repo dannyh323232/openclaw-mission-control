@@ -1,0 +1,132 @@
+.banner {
+  max-width: 680px;
+  margin: 0 auto 22px;
+  text-align: center;
+  padding: 12px 18px;
+  border-radius: 16px;
+  background: rgba(76, 59, 168, 0.2);
+  border: 1px solid rgba(123, 97, 255, 0.22);
+  color: #d8ccff;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.heading h1 {
+  font-size: 46px;
+  margin-bottom: 8px;
+}
+
+.heading p {
+  color: #868da2;
+}
+
+.layerLabel,
+.splitLabelRow {
+  margin: 20px auto 14px;
+  text-align: center;
+  color: #7f8597;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+.splitLabelRow {
+  display: flex;
+  justify-content: center;
+  gap: 120px;
+}
+
+.leaderWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.twoGrid,
+.fourGrid {
+  display: grid;
+  gap: 14px;
+}
+
+.twoGrid {
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+}
+
+.fourGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.card {
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(23, 23, 26, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.leaderWrap .card {
+  width: min(720px, 100%);
+}
+
+.cardTop {
+  margin-bottom: 12px;
+}
+
+.avatarBox {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.07);
+  color: #e5e7eb;
+}
+
+.card h2 {
+  font-size: 22px;
+}
+
+.card h3 {
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 4px 0 10px;
+}
+
+.card p {
+  color: #81889b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.tagRow span {
+  font-size: 11px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.accentPurple { border-color: rgba(123, 97, 255, 0.25); }
+.accentBlue { border-color: rgba(59, 130, 246, 0.25); }
+.accentOrange { border-color: rgba(245, 158, 11, 0.25); }
+.accentGreen { border-color: rgba(34, 197, 94, 0.25); }
+.accentPink { border-color: rgba(236, 72, 153, 0.25); }
+.accentSlate { border-color: rgba(148, 163, 184, 0.2); }
+
+@media (max-width: 1200px) {
+  .fourGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .heading h1 { font-size: 34px; }
+  .twoGrid, .fourGrid { grid-template-columns: 1fr; }
+  .splitLabelRow { gap: 24px; }
+}

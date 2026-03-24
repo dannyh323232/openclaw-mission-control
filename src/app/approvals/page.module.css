@@ -1,10 +1,27 @@
-.grid {
+.summaryRow,
+.flowLinks,
+.layout,
+.stack,
+.actions,
+.cardMeta,
+.decisionGrid,
+.sideList {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
+.summaryRow {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.summaryCard,
+.flowBanner,
+.flowLink,
 .card,
+.decisionCard,
+.sideCard,
+.emptyState,
 .actions button {
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -12,22 +29,120 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-.card {
+.summaryCard,
+.flowBanner,
+.card,
+.decisionCard,
+.sideCard,
+.emptyState {
   padding: 18px;
 }
 
-.topRow,
-.footer,
-.actions {
+.summaryCard span,
+.summaryCard small,
+.sectionKicker,
+.flowBanner p,
+.flowLink span,
+.card p,
+.cardTop small,
+.cardMeta small,
+.decisionCard p,
+.sideItem small,
+.sideTask small,
+.helper,
+.emptyState p,
+.sectionHeader small {
+  color: #909ab0;
+}
+
+.summaryCard strong {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 30px;
+}
+
+.flowBanner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 16px;
+  margin-bottom: 18px;
+  background: linear-gradient(120deg, rgba(81, 58, 187, 0.28), rgba(12, 18, 31, 0.94));
+}
+
+.sectionKicker {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.flowBanner h2 {
+  margin: 8px 0 10px;
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+.flowBanner p,
+.card p,
+.decisionCard p,
+.emptyState p,
+.helper {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.flowLinks {
+  grid-template-columns: 1fr;
+}
+
+.flowLink {
+  padding: 16px;
+}
+
+.flowLink strong,
+.sideCard strong,
+.sideTask strong,
+.sideItem strong,
+.decisionCard strong,
+.emptyState strong {
+  display: block;
+}
+
+.flowLink strong {
+  margin-bottom: 6px;
+}
+
+.layout {
+  grid-template-columns: minmax(0, 1.4fr) 340px;
+  align-items: start;
+}
+
+.mainColumn,
+.sideColumn {
+  display: grid;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: end;
+}
+
+.sectionHeader h3 {
+  margin-top: 8px;
+  font-size: 22px;
+}
+
+.cardTop,
+.sideItem {
   display: flex;
   justify-content: space-between;
   gap: 12px;
 }
 
-.topRow small,
-.card p,
-.footer span {
-  color: #909ab0;
+.cardTop {
+  align-items: flex-start;
 }
 
 .status {
@@ -35,48 +150,107 @@
 }
 
 .card h2 {
-  margin: 14px 0 8px;
+  margin: 8px 0 10px;
+  font-size: 22px;
 }
 
-.card p {
-  min-height: 78px;
-  line-height: 1.55;
-}
-
-.footer {
-  margin-top: 14px;
-  padding-top: 14px;
+.cardMeta {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 16px;
+  padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.cardMeta strong {
+  display: block;
+  margin-top: 4px;
+}
+
 .actions {
-  margin-top: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 16px;
 }
 
 .actions form {
-  flex: 1;
+  display: block;
 }
 
 .actions button {
   width: 100%;
-  min-height: 42px;
+  min-height: 46px;
   color: #eef2ff;
+  padding: 0 14px;
 }
 
 .approve { background: rgba(21, 128, 61, 0.26); }
 .reject { background: rgba(127, 29, 29, 0.25); }
+
+.decisionGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.decisionCard strong {
+  margin: 12px 0 8px;
+}
+
+.sideCard > strong {
+  margin: 10px 0 14px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.sideList {
+  grid-template-columns: 1fr;
+}
+
+.sideItem,
+.sideTask {
+  border-radius: 16px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sideItem b {
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: rgba(245, 158, 11, 0.18);
+  color: #fdd68a;
+}
+
+.sideLink {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #c8d4ff;
+}
+
 .amber { border-color: rgba(245, 158, 11, 0.28); }
 .green { border-color: rgba(34, 197, 94, 0.28); }
 .purple { border-color: rgba(139, 92, 246, 0.28); }
 
 @media (max-width: 1180px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .summaryRow,
+  .decisionGrid,
+  .layout,
+  .actions,
+  .cardMeta,
+  .flowBanner {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 780px) {
-  .grid {
+  .summaryRow {
     grid-template-columns: 1fr;
+  }
+
+  .sectionHeader,
+  .cardTop,
+  .sideItem {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

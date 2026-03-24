@@ -38,6 +38,36 @@ export default async function Home() {
   const tasksInReview = data.tasks.filter((task) => task.lane === "review");
   const busyAgents = data.agents.filter((agent) => agent.status === "busy");
   const latestEvent = data.events.at(-1);
+  const scheduleItems = [...data.scheduleItems].sort((a, b) => a.startsAt.localeCompare(b.startsAt));
+  const nextScheduled = scheduleItems[0];
+  const projectAttention = data.projects.filter((project) => project.health !== "on-track");
+  const recentEvents = [...data.events].slice(-4).reverse();
+  const flowCards = [
+    {
+      label: "Approvals",
+      href: "/approvals",
+      metric: `${pendingApprovals.length} waiting`,
+      detail: pendingApprovals.length ? pendingApprovals[0].title : "Decision queue is clear.",
+    },
+    {
+      label: "Tasks",
+      href: "/tasks",
+      metric: `${tasksNow.length} in now`,
+      detail: tasksNow[0]?.title ?? "No task is currently in the now lane.",
+    },
+    {
+      label: "Calendar",
+      href: "/calendar",
+      metric: nextScheduled ? formatDateTime(nextScheduled.startsAt) : "No block booked",
+      detail: nextScheduled ? nextScheduled.title : "Nothing is scheduled yet.",
+    },
+    {
+      label: "Projects",
+      href: "/projects",
+      metric: `${projectAttention.length} need attention`,
+      detail: projectAttention[0]?.title ?? "All tracked projects are on track.",
+    },
+  ] as const;
 
   return (
     <AppChrome
@@ -54,9 +84,9 @@ export default async function Home() {
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
           <span className={styles.kicker}>Command centre</span>
-          <h2>Mission Control is now organised around decisions, execution, time, and reference.</h2>
+          <h2>Mission Control is organised as one operating loop, not a pile of separate pages.</h2>
           <p>
-            The point of this screen is orientation: see the pressure, choose the right page, and move straight into action without guessing what each view is for.
+            Start here to see pressure, then move in sequence: clear decisions in Approvals, run work in Tasks, protect time in Calendar, and inspect delivery health in Projects.
           </p>
         </div>
         <div className={styles.heroStats}>
@@ -75,6 +105,24 @@ export default async function Home() {
             <strong>{busyAgents.length}</strong>
             <small>{data.agents.length - busyAgents.length} with some spare capacity.</small>
           </div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.sectionHeading}>
+          <div>
+            <span className={styles.kicker}>Operating flow</span>
+            <h3>Follow the loop instead of guessing where to start</h3>
+          </div>
+        </div>
+        <div className={styles.flowGrid}>
+          {flowCards.map((card) => (
+            <Link key={card.label} href={card.href} className={styles.flowCard}>
+              <span className={styles.cardLabel}>{card.label}</span>
+              <strong>{card.metric}</strong>
+              <p>{card.detail}</p>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -132,6 +180,24 @@ export default async function Home() {
             <p>{latestEvent ? `${latestEvent.actor} · ${formatDateTime(latestEvent.timestamp)}` : "Events will appear here once activity is logged."}</p>
             <Link href="/projects">Open delivery views</Link>
           </article>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.sectionHeading}>
+          <div>
+            <span className={styles.kicker}>Recent activity</span>
+            <h3>Live changes from the shared state</h3>
+          </div>
+        </div>
+        <div className={styles.eventGrid}>
+          {recentEvents.map((event) => (
+            <article key={event.id} className={styles.eventCard}>
+              <small>{event.type}</small>
+              <strong>{event.message}</strong>
+              <p>{event.actor} · {formatDateTime(event.timestamp)}</p>
+            </article>
+          ))}
         </div>
       </section>
 

@@ -2,7 +2,9 @@
 .statCard,
 .nextCard,
 .snapshotCard,
-.workflowCard {
+.workflowCard,
+.flowCard,
+.eventCard {
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.07);
   background: linear-gradient(180deg, rgba(19, 25, 38, 0.95), rgba(10, 14, 22, 0.98));
@@ -34,7 +36,10 @@
 .nextCard p,
 .snapshotCard small,
 .snapshotCard p,
-.workflowCard p {
+.workflowCard p,
+.flowCard p,
+.eventCard small,
+.eventCard p {
   color: #95a0b7;
 }
 
@@ -55,7 +60,9 @@
 .heroStats,
 .nextGrid,
 .snapshotGrid,
-.workflowGrid {
+.workflowGrid,
+.flowGrid,
+.eventGrid {
   display: grid;
   gap: 16px;
 }
@@ -67,7 +74,9 @@
 .statCard,
 .nextCard,
 .snapshotCard,
-.workflowCard {
+.workflowCard,
+.flowCard,
+.eventCard {
   padding: 18px;
 }
 
@@ -93,33 +102,43 @@
   font-size: 22px;
 }
 
-.nextGrid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.flowGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.flowCard strong,
 .nextCard strong,
 .snapshotCard strong,
-.workflowCard strong {
+.workflowCard strong,
+.eventCard strong {
   display: block;
   margin: 8px 0 10px;
   font-size: 20px;
   line-height: 1.25;
 }
 
+.flowCard p,
 .nextCard p,
 .snapshotCard p,
-.workflowCard p {
+.workflowCard p,
+.eventCard p {
   font-size: 14px;
   line-height: 1.55;
 }
 
-.snapshotGrid {
+.nextGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.snapshotGrid,
+.eventGrid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .snapshotCard a,
 .nextCard,
-.workflowCard {
+.workflowCard,
+.flowCard {
   color: inherit;
 }
 
@@ -136,17 +155,20 @@
 @media (max-width: 1180px) {
   .hero,
   .nextGrid,
-  .workflowGrid {
+  .workflowGrid,
+  .flowGrid {
     grid-template-columns: 1fr;
   }
 
-  .snapshotGrid {
+  .snapshotGrid,
+  .eventGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 780px) {
-  .snapshotGrid {
+  .snapshotGrid,
+  .eventGrid {
     grid-template-columns: 1fr;
   }
 }

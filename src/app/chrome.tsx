@@ -42,7 +42,52 @@ const navGroups: NavGroup[] = [
   },
 ];
 
+const pageContext: Record<NavKey, { prompt: string; primary: { label: string; href: string }; secondary?: { label: string; href: string } }> = {
+  home: {
+    prompt: "Start with the operating summary, then open the next surface that clears pressure fastest.",
+    primary: { label: "Open approvals", href: "/approvals" },
+    secondary: { label: "Run tasks", href: "/tasks" },
+  },
+  approvals: {
+    prompt: "Clear waiting decisions first, then return to tasks and calendar once the queue is unblocked.",
+    primary: { label: "Back to overview", href: "/" },
+    secondary: { label: "Open tasks", href: "/tasks" },
+  },
+  tasks: {
+    prompt: "Move work through now → building → review and escalate only when something truly needs a decision.",
+    primary: { label: "Open calendar", href: "/calendar" },
+    secondary: { label: "Open approvals", href: "/approvals" },
+  },
+  calendar: {
+    prompt: "Protect time for what is already active on the board and keep recurring rhythm separate from execution blocks.",
+    primary: { label: "Open projects", href: "/projects" },
+    secondary: { label: "Open tasks", href: "/tasks" },
+  },
+  projects: {
+    prompt: "Use projects to inspect delivery health, then jump back into tasks or approvals to change the underlying state.",
+    primary: { label: "Open tasks", href: "/tasks" },
+    secondary: { label: "Open approvals", href: "/approvals" },
+  },
+  memory: {
+    prompt: "Reference durable notes here, then return to the operating pages when you need to act.",
+    primary: { label: "Back to overview", href: "/" },
+    secondary: { label: "Open team", href: "/team" },
+  },
+  team: {
+    prompt: "Check who has capacity, then rebalance work on the tasks and calendar pages.",
+    primary: { label: "Open tasks", href: "/tasks" },
+    secondary: { label: "Open calendar", href: "/calendar" },
+  },
+  office: {
+    prompt: "This is a visual read only. Leave it for the workflow pages when you need to make actual decisions.",
+    primary: { label: "Back to overview", href: "/" },
+    secondary: { label: "Open team", href: "/team" },
+  },
+};
+
 export function AppChrome({ active, title, description, controls, children }: ChromeProps) {
+  const context = pageContext[active];
+
   return (
     <main className={shell.shell}>
       <aside className={shell.sidebar}>
@@ -57,7 +102,7 @@ export function AppChrome({ active, title, description, controls, children }: Ch
         <div className={shell.missionCard}>
           <span className={shell.sidebarSectionLabel}>Current posture</span>
           <strong>Run the day from one place</strong>
-          <p>Use Overview to orient, Tasks to move work, Calendar to shape time, and Approvals only when Daniel needs to decide.</p>
+          <p>Use Overview to orient, Tasks to move work, Calendar to shape time, Projects to inspect delivery health, and Approvals only when Daniel needs to decide.</p>
         </div>
 
         {navGroups.map((group) => (
@@ -83,8 +128,8 @@ export function AppChrome({ active, title, description, controls, children }: Ch
         <div className={shell.sidebarSectionLabel}>System</div>
         <div className={shell.sidebarCard}>
           <div>
-            <strong>Control loop</strong>
-            <span>Plan → execute → review → escalate</span>
+            <strong>Operating loop</strong>
+            <span>Overview → Tasks → Calendar → Projects → Approvals</span>
           </div>
           <b>Live</b>
         </div>
@@ -107,11 +152,11 @@ export function AppChrome({ active, title, description, controls, children }: Ch
         <header className={shell.topbar}>
           <div className={shell.searchWrap}>
             <span>⌕</span>
-            <div className={shell.search}>Mission Control is a shared operating view — pick a surface based on the decision you need to make.</div>
+            <div className={shell.search}>{context.prompt}</div>
           </div>
           <div className={shell.topActions}>
-            <button className={shell.ghostButton}>Quiet mode</button>
-            <button className={shell.primaryButton}>Open approvals</button>
+            <Link href={context.primary.href} className={shell.primaryButton}>{context.primary.label}</Link>
+            {context.secondary ? <Link href={context.secondary.href} className={shell.ghostButton}>{context.secondary.label}</Link> : null}
             <div className={shell.signalStack}>
               <span className={shell.signalDot} />
               <span>Shared state live</span>

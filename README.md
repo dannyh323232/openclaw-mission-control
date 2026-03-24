@@ -66,6 +66,18 @@ For the MVP, persistence is file-based and local:
 
 This keeps the app simple, fast to iterate, and easy to demo locally.
 
+## Netlify deploy
+This repo is now prepared for Netlify as a real Next.js app.
+
+Use these settings in Netlify:
+- Repo: `dannyh323232/openclaw-mission-control`
+- Build command: `npm run build`
+- Publish directory: leave blank / let Netlify detect Next.js
+- Node version: `22`
+
+Config file included:
+- `netlify.toml`
+
 ## Critical project rule
 Build the **operating system first**.
 Do not prioritise the pretty office over real workflow.

@@ -81,6 +81,14 @@ Use these settings in Netlify:
 Config file included:
 - `netlify.toml`
 
+## Relay environment
+To enable live outbound relay tests from `/relay`, copy `.env.example` to `.env.local` and set:
+- `DISCORD_WEBHOOK_URL`
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+
+Without these, the Relay page still works, but test sends will log the blocker into History instead of sending.
+
 ## Critical project rule
 Build the **operating system first**.
 Do not prioritise the pretty office over real workflow.

@@ -1,5 +1,6 @@
 .hero,
-.payloadLayout {
+.payloadLayout,
+.runtimeGrid {
   display: grid;
   gap: 18px;
 }
@@ -12,7 +13,8 @@
 .heroCard,
 .summaryCard,
 .channelCard,
-.payloadCard {
+.payloadCard,
+.runtimeCard {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.03);
@@ -24,7 +26,8 @@
 .summaryCard span,
 .summaryCard small,
 .channelTop small,
-.metaBlock small {
+.metaBlock small,
+.runtimeCard small {
   color: #91a0bf;
 }
 
@@ -39,7 +42,9 @@
 .heroCard p,
 .channelCard p,
 .payloadCard strong,
-.metaBlock strong {
+.metaBlock strong,
+.runtimeCard p,
+.runtimeCard strong {
   color: #dbe4ff;
 }
 
@@ -49,9 +54,16 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.runtimeGrid {
+  grid-template-columns: 1.05fr 1fr;
+  margin-bottom: 22px;
+}
+
 .summaryGrid,
 .channelGrid,
-.metaBlock {
+.metaBlock,
+.runtimeList,
+.testActions {
   display: grid;
   gap: 14px;
 }
@@ -60,6 +72,59 @@
   display: block;
   font-size: 28px;
   margin: 8px 0;
+}
+
+.runtimeList {
+  margin-top: 14px;
+}
+
+.runtimeLead {
+  margin: 10px 0 14px;
+}
+
+.runtimeRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.ok,
+.bad {
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.ok {
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.16);
+}
+
+.bad {
+  color: #f9a8d4;
+  background: rgba(168, 85, 247, 0.16);
+}
+
+.primaryButton,
+.secondaryButton {
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #f7f9ff;
+  font-weight: 600;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #5b6cff, #7c4dff);
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.inlineNote code {
+  color: #dbe4ff;
 }
 
 .channelGrid {
@@ -113,7 +178,8 @@
   .hero,
   .summaryGrid,
   .channelGrid,
-  .payloadLayout {
+  .payloadLayout,
+  .runtimeGrid {
     grid-template-columns: 1fr;
   }
 }

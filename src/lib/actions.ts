@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getMissionControlData, makeId, writeMissionControlData } from "./store";
+import { sendRelayMessage } from "./relay";
 import type { ApprovalStatus, Health, MissionControlData, Priority, TaskLane } from "./types";
 
 function asString(value: FormDataEntryValue | null) {
@@ -141,4 +142,35 @@ export async function updateApprovalStatus(formData: FormData) {
   }
   await writeMissionControlData(data);
   bounce("/approvals");
+}
+
+export async function sendRelayTest(formData: FormData) {
+  const surface = asString(formData.get("surface"));
+  const data = await getMissionControlData();
+  const pendingApproval = data.approvals.find((approval) => approval.status === "pending");
+  const latestEvents = [...data.events].slice(-3).reverse();
+
+  try {
+    if (surface === "telegram") {
+      await sendRelayMessage("telegram", "Mission Control test", [
+        pendingApproval ? `Approval needed: ${pendingApproval.title}` : "No pending approvals right now.",
+        "This is a live relay test from Mission Control.",
+      ]);
+      logEvent(data, "relay", "relay", "Sent Telegram relay test payload.");
+    } else if (surface === "discord") {
+      await sendRelayMessage("discord", "Mission Control test", [
+        "Execution feed sample:",
+        ...latestEvents.map((event) => `- ${event.actor}: ${event.message}`),
+      ]);
+      logEvent(data, "relay", "relay", "Sent Discord relay test payload.");
+    } else {
+      throw new Error("Unknown relay surface.");
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown relay failure.";
+    logEvent(data, "relay", "relay", `${surface || "unknown"} relay test blocked: ${message}`);
+  }
+
+  await writeMissionControlData(data);
+  bounce("/relay");
 }

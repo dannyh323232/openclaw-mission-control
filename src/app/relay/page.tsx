@@ -1,5 +1,7 @@
 import { AppChrome } from "../chrome";
 import styles from "./page.module.css";
+import { sendRelayTest } from "@/lib/actions";
+import { getRelayReadiness } from "@/lib/relay";
 import { getMissionControlData } from "@/lib/store";
 import { formatDateTime, relayTone } from "@/lib/view-models";
 
@@ -8,31 +10,76 @@ export const dynamic = "force-dynamic";
 export default async function RelayPage() {
   const data = await getMissionControlData();
   const pendingApprovals = data.approvals.filter((approval) => approval.status === "pending");
-  const recentEvents = [...data.events].slice(-3).reverse();
+  const recentEvents = [...data.events].slice(-5).reverse();
+  const readiness = getRelayReadiness();
 
   return (
     <AppChrome
       active="relay"
       title="Relay"
-      description="This page prepares the external messaging layer honestly: what Discord and Telegram are for, what data they should receive, and what is still blocked until real credentials exist."
+      description="Mission Control can now prepare real outbound Discord and Telegram messages. Live send works as soon as the correct environment variables exist."
       controls={
         <>
           <button>{data.relayChannels.length} relay targets</button>
-          <button>{pendingApprovals.length} approval payloads available</button>
+          <button>{Object.values(readiness).filter((item) => item.configured).length} surfaces configured</button>
         </>
       }
     >
       <section className={styles.hero}>
         <div className={styles.heroCard}>
           <span className={styles.kicker}>Relay contract</span>
-          <h2>External surfaces are now framed as outputs from Mission Control, not parallel sources of truth.</h2>
-          <p>Discord should receive execution visibility. Telegram should receive owner exceptions. Both can now be wired against a clearer in-app contract when credentials are available.</p>
+          <h2>External surfaces are outputs from Mission Control, not competing sources of truth.</h2>
+          <p>
+            Discord should receive execution visibility. Telegram should receive owner exceptions.
+            This screen now shows both the contract and the real runtime readiness for sending test payloads.
+          </p>
         </div>
         <div className={styles.summaryGrid}>
           <div className={styles.summaryCard}><span>Approvals ready to send</span><strong>{pendingApprovals.length}</strong><small>Immediate Telegram-style owner exceptions</small></div>
           <div className={styles.summaryCard}><span>Recent event payloads</span><strong>{recentEvents.length}</strong><small>Latest history available for feed fan-out</small></div>
-          <div className={styles.summaryCard}><span>Blocked by access</span><strong>{data.relayChannels.filter((channel) => channel.status !== "ready").length}</strong><small>All remaining blockers are external, not structural</small></div>
+          <div className={styles.summaryCard}><span>Configured surfaces</span><strong>{Object.values(readiness).filter((item) => item.configured).length}</strong><small>Environment-backed relay targets</small></div>
         </div>
+      </section>
+
+      <section className={styles.runtimeGrid}>
+        <article className={styles.runtimeCard}>
+          <span className={styles.kicker}>Live runtime readiness</span>
+          <div className={styles.runtimeList}>
+            <div className={styles.runtimeRow}>
+              <div>
+                <strong>Discord</strong>
+                <small>{readiness.discord.target}</small>
+              </div>
+              <b className={readiness.discord.configured ? styles.ok : styles.bad}>{readiness.discord.configured ? "Configured" : "Blocked"}</b>
+            </div>
+            <p>{readiness.discord.blocker}</p>
+
+            <div className={styles.runtimeRow}>
+              <div>
+                <strong>Telegram</strong>
+                <small>{readiness.telegram.target}</small>
+              </div>
+              <b className={readiness.telegram.configured ? styles.ok : styles.bad}>{readiness.telegram.configured ? "Configured" : "Blocked"}</b>
+            </div>
+            <p>{readiness.telegram.blocker}</p>
+          </div>
+        </article>
+
+        <article className={styles.runtimeCard}>
+          <span className={styles.kicker}>Test live relay</span>
+          <p className={styles.runtimeLead}>These actions attempt a real outbound send. If env vars are missing, the app logs the blocker into History instead.</p>
+          <div className={styles.testActions}>
+            <form action={sendRelayTest}>
+              <input type="hidden" name="surface" value="discord" />
+              <button type="submit" className={styles.primaryButton}>Send Discord test</button>
+            </form>
+            <form action={sendRelayTest}>
+              <input type="hidden" name="surface" value="telegram" />
+              <button type="submit" className={styles.secondaryButton}>Send Telegram test</button>
+            </form>
+          </div>
+          <small className={styles.inlineNote}>Required env vars: <code>DISCORD_WEBHOOK_URL</code>, <code>TELEGRAM_BOT_TOKEN</code>, <code>TELEGRAM_CHAT_ID</code></small>
+        </article>
       </section>
 
       <section className={styles.channelGrid}>

@@ -28,10 +28,15 @@
   font-size: 22px;
 }
 
-.card p {
+.card p,
+.card small {
   color: #8e98ad;
   font-size: 14px;
   line-height: 1.5;
+}
+
+.card small {
+  font-size: 12px;
 }
 
 @media (max-width: 1080px) {

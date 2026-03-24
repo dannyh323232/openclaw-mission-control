@@ -1,14 +1,25 @@
 # OpenClaw Mission Control
 
-Mission Control is a multi-view control room for a coordinated AI office.
+Mission Control is the local operations cockpit for a coordinated AI office.
 
-Current prototype includes screenshot-inspired views for:
-- Tasks
-- Calendar
-- Projects
-- Memory
-- Team
-- Office
+## Current MVP state
+Working now:
+- shared JSON-backed data model in `src/data/mission-control.json`
+- live-loaded pages for tasks, calendar, projects, approvals, memory, and team
+- CRUD for:
+  - tasks: create, move between lanes, delete
+  - projects: create, delete
+  - schedule items: create, delete
+  - approvals: approve / reject
+- polished dark multi-view shell preserved from the UI rebuild
+- local dev/build/lint works
+
+Still mock / not live yet:
+- Office view is still visual only
+- no live Discord relay
+- no live Telegram relay
+- no background manager logic yet
+- no real-time multi-user sync or database layer
 
 ## What this repo is for
 This repo is **not** the Refined website and must stay separate from `refinedmedicalaestheticsuk`.
@@ -22,22 +33,6 @@ Its purpose is to become the backend + UI control layer for:
 - event history
 - Discord / Telegram relay
 
-## Current status
-Working now:
-- shared app shell
-- multi-page UI
-- local dev/build works
-- GitHub repo created and pushed
-
-Not built yet:
-- persistence
-- CRUD
-- real task/event store
-- manager logic
-- Telegram relay
-- Discord relay
-- agent-to-agent orchestration
-
 ## Local development
 ```bash
 npm install
@@ -49,6 +44,7 @@ Then open:
 
 ## Build
 ```bash
+npm run lint
 npm run build
 npm run start
 ```
@@ -57,23 +53,18 @@ npm run start
 - `/tasks`
 - `/calendar`
 - `/projects`
+- `/approvals`
 - `/memory`
 - `/team`
 - `/office`
 
-## Fast deployment options
-### Option 1 — Vercel
-This is the easiest preview path for a Next.js app.
+## Persistence
+For the MVP, persistence is file-based and local:
+- source of truth: `src/data/mission-control.json`
+- reads: server-side page load
+- writes: Next server actions
 
-Steps:
-1. Import the repo into Vercel
-2. Framework: Next.js
-3. Build command: `npm run build`
-4. Output: default Next.js output
-5. Deploy
-
-### Option 2 — VPS / Docker / reverse proxy
-Use if you want Mission Control hosted inside the existing OpenClaw stack later.
+This keeps the app simple, fast to iterate, and easy to demo locally.
 
 ## Critical project rule
 Build the **operating system first**.

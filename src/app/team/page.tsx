@@ -1,50 +1,50 @@
 import { AppChrome } from "../chrome";
 import styles from "./page.module.css";
+import { getMissionControlData } from "@/lib/store";
 
-type Member = { name: string; role: string; lane: string; load: string; summary: string; tone: "purple" | "blue" | "green" | "amber" | "pink" | "slate" };
+export const dynamic = "force-dynamic";
 
-const members: Member[] = [
-  { name: "Henry", role: "Chief of Staff", lane: "Command", load: "94%", summary: "Routes work, shields the CEO from noise, and decides what actually deserves escalation.", tone: "purple" },
-  { name: "Charlie", role: "Infrastructure", lane: "Systems", load: "88%", summary: "Owns automations, event routing, and the plumbing that keeps the organisation reliable.", tone: "blue" },
-  { name: "Scout", role: "Trend Analyst", lane: "Signal", load: "71%", summary: "Scans fast for hooks, angles, and market movement before the rest of the stack sees it.", tone: "green" },
-  { name: "Quill", role: "Writer", lane: "Output", load: "76%", summary: "Turns raw direction into hooks, scripts, captions, and persuasive content assets.", tone: "purple" },
-  { name: "Pixel", role: "Visual Design", lane: "Output", load: "63%", summary: "Builds thumbnails, visual systems, and attention-first packaging for creative delivery.", tone: "pink" },
-  { name: "Ralph", role: "QA / Foreman", lane: "Assurance", load: "57%", summary: "Checks the work, spots weak joins, and keeps quality from slipping at the handoff point.", tone: "amber" },
-];
+const toneByStatus = {
+  busy: "purple",
+  online: "green",
+  idle: "slate",
+} as const;
 
-export default function TeamPage() {
+export default async function TeamPage() {
+  const data = await getMissionControlData();
+
   return (
     <AppChrome
       active="team"
       title="Team"
-      description="An org view with a clearer command structure, workload cues, and more believable role framing."
-      controls={<><button>Org chart</button><button>Capacity</button></>}
+      description="Agent roster now comes from shared persisted data, so team load and status are no longer page-local mocks."
+      controls={<><button>Org chart</button><button>{data.agents.filter((agent) => agent.status === "busy").length} busy</button></>}
     >
       <div className={styles.hero}>
         <div>
           <span>Autonomous org</span>
-          <strong>9 agents across command, systems, signal, output, and assurance.</strong>
+          <strong>{data.agents.length} agents across command, systems, signal, output, and assurance.</strong>
         </div>
         <div className={styles.heroStats}>
-          <div><small>Online</small><strong>9</strong></div>
-          <div><small>Busy now</small><strong>6</strong></div>
-          <div><small>Load</small><strong>78%</strong></div>
+          <div><small>Online</small><strong>{data.agents.filter((agent) => agent.status !== "idle").length}</strong></div>
+          <div><small>Busy now</small><strong>{data.agents.filter((agent) => agent.status === "busy").length}</strong></div>
+          <div><small>Avg load</small><strong>{Math.round(data.agents.reduce((sum, agent) => sum + agent.load, 0) / Math.max(data.agents.length, 1))}%</strong></div>
         </div>
       </div>
 
       <div className={styles.grid}>
-        {members.map((member) => (
-          <article key={member.name} className={styles.card}>
+        {data.agents.map((member) => (
+          <article key={member.id} className={styles.card}>
             <div className={styles.topRow}>
-              <div className={`${styles.avatar} ${styles[member.tone]}`}>{member.name[0]}</div>
-              <div className={styles.loadPill}>{member.load}</div>
+              <div className={`${styles.avatar} ${styles[toneByStatus[member.status]]}`}>{member.name[0]}</div>
+              <div className={styles.loadPill}>{member.load}%</div>
             </div>
             <h2>{member.name}</h2>
             <h3>{member.role}</h3>
             <p>{member.summary}</p>
             <div className={styles.footer}>
               <span>{member.lane}</span>
-              <strong>{member.load} utilised</strong>
+              <strong>{member.status}</strong>
             </div>
           </article>
         ))}

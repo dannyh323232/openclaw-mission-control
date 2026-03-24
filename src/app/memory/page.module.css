@@ -31,7 +31,8 @@
 .docHeader span,
 .docBody p,
 .docBody li,
-.docBody blockquote {
+.docBody blockquote,
+.noteList li {
   color: #9099af;
 }
 
@@ -39,6 +40,13 @@
   display: block;
   margin: 10px 0 8px;
   line-height: 1.45;
+}
+
+.noteList {
+  margin-top: 14px;
+  padding-left: 18px;
+  display: grid;
+  gap: 10px;
 }
 
 .sectionLabel {

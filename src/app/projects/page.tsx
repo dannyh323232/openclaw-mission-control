@@ -1,55 +1,69 @@
 import { AppChrome } from "../chrome";
 import styles from "./page.module.css";
+import { createProject, deleteProject } from "@/lib/actions";
+import { getMissionControlData } from "@/lib/store";
+import { projectTone } from "@/lib/view-models";
 
-type Project = {
-  title: string;
-  summary: string;
-  progress: number;
-  owner: string;
-  budget: string;
-  due: string;
-  health: string;
-  tone: "green" | "amber" | "purple" | "slate";
-};
+export const dynamic = "force-dynamic";
 
-const projects: Project[] = [
-  { title: "Mission Control", summary: "Premium command interface for operations, scheduling, memory, team visibility, and office state.", progress: 74, owner: "Codex", budget: "12 tasks", due: "This week", health: "On track", tone: "purple" },
-  { title: "Refined conversion system", summary: "Homepage, CTA flow, trust proof, and consultation-path improvements for clinic growth.", progress: 58, owner: "Web", budget: "8 tasks", due: "Fri", health: "Needs copy lock", tone: "amber" },
-  { title: "Relay layer", summary: "Shared event transport for messaging surfaces, approvals, and background automation.", progress: 63, owner: "Charlie", budget: "10 tasks", due: "Mon", health: "Stable", tone: "green" },
-  { title: "Research engine", summary: "Trend capture, scoring, and opportunity brief generation for repeatable high-signal input.", progress: 34, owner: "Scout", budget: "15 tasks", due: "Next week", health: "Exploring", tone: "slate" },
-  { title: "Content factory", summary: "Repeatable reels, captions, footage plans, and social publishing workflows.", progress: 49, owner: "Quill", budget: "11 tasks", due: "Tue", health: "Waiting assets", tone: "purple" },
-  { title: "CEO exception queue", summary: "Filter routing so Daniel only sees decisions, blockers, approvals, and high-risk actions.", progress: 81, owner: "Henry", budget: "5 tasks", due: "Today", health: "Closing out", tone: "green" },
-];
+export default async function ProjectsPage() {
+  const data = await getMissionControlData();
+  const agentMap = new Map(data.agents.map((agent) => [agent.id, agent]));
+  const taskCounts = new Map(data.projects.map((project) => [project.id, data.tasks.filter((task) => task.projectId === project.id).length]));
 
-export default function ProjectsPage() {
   return (
     <AppChrome
       active="projects"
       title="Projects"
-      description="Polished delivery cards with stronger hierarchy, metadata, and clearer progress storytelling."
-      controls={<><button>Portfolio</button><button>Health view</button></>}
+      description="Portfolio cards now load from the shared data model, with project creation and delete flows."
+      controls={<><button>{data.projects.length} projects</button><button>{data.tasks.length} linked tasks</button></>}
     >
+      <section className={styles.composer}>
+        <div>
+          <span className={styles.sectionKicker}>Create project</span>
+          <h2>Add a new tracked initiative</h2>
+        </div>
+        <form action={createProject} className={styles.formGrid}>
+          <input name="title" placeholder="Project title" required />
+          <input name="summary" placeholder="Short summary" required />
+          <select name="ownerId" defaultValue={data.agents[0]?.id}>{data.agents.map((agent) => <option key={agent.id} value={agent.id}>{agent.name}</option>)}</select>
+          <input type="date" name="dueDate" required />
+          <input type="number" min="0" max="100" name="progress" placeholder="Progress %" defaultValue="0" required />
+          <select name="health" defaultValue="planning">
+            <option value="planning">Planning</option>
+            <option value="on-track">On track</option>
+            <option value="at-risk">At risk</option>
+            <option value="blocked">Blocked</option>
+          </select>
+          <button type="submit">Create project</button>
+        </form>
+      </section>
+
       <div className={styles.grid}>
-        {projects.map((project) => (
-          <article key={project.title} className={styles.card}>
+        {data.projects.map((project) => (
+          <article key={project.id} className={styles.card}>
             <div className={styles.topRow}>
-              <span className={`${styles.health} ${styles[project.tone]}`}>{project.health}</span>
-              <small>{project.due}</small>
+              <span className={`${styles.health} ${styles[projectTone[project.health]]}`}>{project.health.replace("-", " ")}</span>
+              <small>{project.dueDate}</small>
             </div>
             <h2>{project.title}</h2>
             <p>{project.summary}</p>
-            <div className={styles.progressLine}><span style={{ width: `${project.progress}%` }} className={`${styles.progressBar} ${styles[project.tone]}`} /></div>
-            <div className={styles.progressMeta}><strong>{project.progress}% complete</strong><span>{project.budget}</span></div>
+            <div className={styles.progressLine}><span style={{ width: `${project.progress}%` }} className={`${styles.progressBar} ${styles[projectTone[project.health]]}`} /></div>
+            <div className={styles.progressMeta}><strong>{project.progress}% complete</strong><span>{taskCounts.get(project.id)} tasks</span></div>
             <div className={styles.footer}>
               <div>
                 <small>Owner</small>
-                <strong>{project.owner}</strong>
+                <strong>{agentMap.get(project.ownerId)?.name ?? project.ownerId}</strong>
               </div>
               <div>
                 <small>Due</small>
-                <strong>{project.due}</strong>
+                <strong>{project.dueDate}</strong>
               </div>
             </div>
+            <form action={deleteProject} className={styles.deleteForm}>
+              <input type="hidden" name="id" value={project.id} />
+              <button type="submit">Delete project</button>
+            </form>
           </article>
         ))}
       </div>

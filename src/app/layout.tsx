@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Mission Control",
-  description: "Static premium dark dashboard mock for operations, planning, memory, team, and office views.",
+  description: "Local MVP for operations, planning, approvals, memory, and agent visibility.",
 };
 
 export default function RootLayout({

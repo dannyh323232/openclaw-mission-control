@@ -1,7 +1,7 @@
 import Link from "next/link";
 import shell from "./shared-shell.module.css";
 
-export type NavKey = "tasks" | "calendar" | "projects" | "memory" | "team" | "office";
+export type NavKey = "tasks" | "calendar" | "projects" | "approvals" | "memory" | "team" | "office";
 
 type ChromeProps = {
   active: NavKey;
@@ -15,6 +15,7 @@ const navItems: { key: NavKey; label: string; href: string; icon: string; hint: 
   { key: "tasks", label: "Tasks", href: "/tasks", icon: "◎", hint: "Queues + execution" },
   { key: "calendar", label: "Calendar", href: "/calendar", icon: "◫", hint: "Scheduled load" },
   { key: "projects", label: "Projects", href: "/projects", icon: "◩", hint: "Roadmap + delivery" },
+  { key: "approvals", label: "Approvals", href: "/approvals", icon: "◈", hint: "CEO exception queue" },
   { key: "memory", label: "Memory", href: "/memory", icon: "◌", hint: "Journal + notes" },
   { key: "team", label: "Team", href: "/team", icon: "◍", hint: "Org + roles" },
   { key: "office", label: "Office", href: "/office", icon: "▦", hint: "Live floor state" },

@@ -1,39 +1,38 @@
 import { AppChrome } from "../chrome";
 import styles from "./page.module.css";
+import { getMissionControlData } from "@/lib/store";
 
-const journal = [
-  "Mon · Mar 18",
-  "Sun · Mar 17",
-  "Sat · Mar 16",
-  "Fri · Mar 15",
-  "Thu · Mar 14",
-  "Wed · Mar 13",
-  "Tue · Mar 12",
-];
+export const dynamic = "force-dynamic";
 
-export default function MemoryPage() {
+export default async function MemoryPage() {
+  const data = await getMissionControlData();
+  const selected = data.memoryEntries[0];
+
   return (
     <AppChrome
       active="memory"
       title="Memory"
-      description="A proper notes and journal split view with stronger structure, depth, and reading comfort."
-      controls={<><button>Journal</button><button>Long-term</button></>}
+      description="Memory now reads from the shared persisted model: long-term notes, dated entries, and operating context."
+      controls={<><button>Journal</button><button>{data.memoryEntries.length} entries</button></>}
     >
       <div className={styles.layout}>
         <aside className={styles.sidebar}>
           <div className={styles.featured}>
             <span>Long-term memory</span>
             <strong>Operating assumptions, project state, and recurring lessons</strong>
-            <small>Last distilled 22 hours ago</small>
+            <small>{data.longTermNotes.length} standing notes</small>
+            <ul className={styles.noteList}>
+              {data.longTermNotes.map((note) => <li key={note}>{note}</li>)}
+            </ul>
           </div>
 
           <div className={styles.sectionLabel}>Daily journal</div>
           <div className={styles.entryList}>
-            {journal.map((entry, index) => (
-              <button key={entry} className={`${styles.entry} ${index === 4 ? styles.entryActive : ""}`}>
-                <strong>{entry}</strong>
-                <span>{index === 4 ? "Selected note" : "Review log"}</span>
-              </button>
+            {data.memoryEntries.map((entry, index) => (
+              <div key={entry.id} className={`${styles.entry} ${index === 0 ? styles.entryActive : ""}`}>
+                <strong>{entry.title}</strong>
+                <span>{entry.summary}</span>
+              </div>
             ))}
           </div>
         </aside>
@@ -41,36 +40,16 @@ export default function MemoryPage() {
         <section className={styles.document}>
           <div className={styles.docHeader}>
             <div>
-              <small>Thursday archive</small>
-              <h2>2026-03-14 — Thursday</h2>
+              <small>Latest memory entry</small>
+              <h2>{selected.title}</h2>
             </div>
-            <span>4.8 KB · 778 words</span>
+            <span>{selected.tags.join(" · ")}</span>
           </div>
 
           <div className={styles.docBody}>
-            <h3>09:00 — Research stack review</h3>
-            <p>
-              The main takeaway was that visibility keeps beating aesthetics. Every useful system change was the one that made actions, blockers, and ownership more obvious at a glance.
-            </p>
-            <ul>
-              <li>Medium-tier local models are now viable for serious background throughput.</li>
-              <li>Replacing weak fallbacks matters more than endlessly tweaking the best primary model.</li>
-              <li>Operator trust goes up when the system shows what changed, not just that work happened.</li>
-            </ul>
-
-            <h3>13:40 — Mission Control direction</h3>
-            <p>
-              The dashboard should feel dense, composed, and a bit premium — less prototype, more internal tool that a real team would use daily. Calendar, projects, memory, team, and office all need distinct personalities under one shell.
-            </p>
-
-            <blockquote>
-              Workflow visibility beats aesthetics — but the aesthetics still need to communicate confidence.
-            </blockquote>
-
-            <h3>Decision</h3>
-            <p>
-              Move forward with a tighter dark UI, stronger card realism, and static-but-believable layouts before any backend work.
-            </p>
+            {selected.content.map((paragraph, index) => (
+              <p key={`${selected.id}-${index}`}>{paragraph}</p>
+            ))}
           </div>
         </section>
       </div>

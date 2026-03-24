@@ -1,5 +1,6 @@
 .metaRow,
-.calendar {
+.formGrid,
+.list {
   display: grid;
   gap: 14px;
 }
@@ -10,20 +11,28 @@
 }
 
 .metaCard,
-.times,
-.day {
+.composer,
+.item,
+.formGrid input,
+.formGrid select,
+.formGrid button,
+.sideMeta button {
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.07);
   background: rgba(255, 255, 255, 0.03);
 }
 
-.metaCard {
+.metaCard,
+.composer,
+.item {
   padding: 15px;
 }
 
 .metaCard span,
-.times span,
-.slot small {
+.item small,
+.item p,
+.sectionKicker,
+.sideMeta span {
   color: #8e98ae;
 }
 
@@ -33,91 +42,82 @@
   font-size: 28px;
 }
 
-.calendar {
-  grid-template-columns: 88px repeat(5, minmax(0, 1fr));
-  align-items: start;
+.composer {
+  margin-bottom: 18px;
 }
 
-.times {
-  display: grid;
-  grid-template-rows: 60px repeat(12, 56px);
-  padding: 60px 12px 12px;
+.composer h2 {
+  margin: 8px 0 14px;
 }
 
-.times span {
-  font-size: 12px;
+.formGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.day {
-  padding: 10px;
+.formGrid input,
+.formGrid select,
+.formGrid button,
+.sideMeta button {
+  min-height: 42px;
+  padding: 0 12px;
+  color: #eef2ff;
 }
 
-.active {
-  border-color: rgba(139, 92, 246, 0.3);
-  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.22) inset;
+.formGrid button {
+  background: linear-gradient(180deg, rgba(82, 102, 255, 0.4), rgba(84, 57, 188, 0.42));
 }
 
-.dayHeader {
-  height: 50px;
+.item {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 4px 10px;
+  gap: 16px;
+  align-items: center;
 }
 
-.dayHeader span {
-  color: #aab3c7;
-  font-size: 13px;
+.item h2 {
+  margin: 6px 0;
 }
 
-.dayHeader strong {
-  font-size: 22px;
-}
-
-.grid {
-  display: grid;
-  grid-template-rows: repeat(12, 56px);
-  gap: 6px;
-  position: relative;
-}
-
-.hourLine {
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px dashed rgba(255, 255, 255, 0.04);
-}
-
-.slot {
-  z-index: 1;
-  border-radius: 16px;
-  padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.sideMeta {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  align-items: flex-end;
 }
 
-.slot strong {
-  font-size: 13px;
-  line-height: 1.35;
+.sideMeta strong {
+  text-transform: capitalize;
 }
 
-.purple { background: rgba(100, 73, 196, 0.35); }
-.green { background: rgba(17, 94, 89, 0.35); }
-.amber { background: rgba(180, 83, 9, 0.34); }
-.blue { background: rgba(37, 99, 235, 0.28); }
-.red { background: rgba(153, 27, 27, 0.32); }
+.sideMeta button {
+  background: rgba(127, 29, 29, 0.25);
+}
+
+.purple { border-color: rgba(139, 92, 246, 0.3); }
+.blue { border-color: rgba(59, 130, 246, 0.3); }
+.green { border-color: rgba(34, 197, 94, 0.3); }
+.amber { border-color: rgba(245, 158, 11, 0.3); }
 
 @media (max-width: 1180px) {
-  .metaRow {
+  .metaRow,
+  .formGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .metaRow,
+  .formGrid,
+  .list {
     grid-template-columns: 1fr;
   }
 
-  .calendar {
-    grid-template-columns: 1fr;
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .times {
-    display: none;
+  .sideMeta {
+    align-items: flex-start;
   }
 }

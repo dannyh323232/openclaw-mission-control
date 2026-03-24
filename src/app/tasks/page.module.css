@@ -11,14 +11,23 @@
 
 .summaryCard,
 .column,
-.card {
+.card,
+.composer,
+.formGrid input,
+.formGrid select,
+.formGrid button,
+.actions select,
+.deleteButton {
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-.summaryCard {
+.summaryCard,
+.composer,
+.column,
+.card {
   padding: 16px;
 }
 
@@ -26,12 +35,14 @@
 .columnHeader span,
 .cardMeta,
 .card p,
-.footer small {
+.footer small,
+.sectionKicker {
   color: #8f99af;
 }
 
 .summaryCard span,
-.footer small {
+.footer small,
+.sectionKicker {
   font-size: 12px;
   letter-spacing: 0.04em;
 }
@@ -42,18 +53,43 @@
   font-size: 30px;
 }
 
+.composer {
+  margin-bottom: 18px;
+}
+
+.composer h2 {
+  margin: 8px 0 14px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.formGrid input,
+.formGrid select,
+.formGrid button,
+.actions select,
+.deleteButton {
+  min-height: 42px;
+  padding: 0 12px;
+  color: #eef2ff;
+}
+
+.formGrid button {
+  background: linear-gradient(180deg, rgba(82, 102, 255, 0.4), rgba(84, 57, 188, 0.42));
+}
+
 .board {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: start;
 }
 
-.column {
-  padding: 14px;
-}
-
 .columnHeader,
 .cardMeta,
-.footer {
+.footer,
+.actions {
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -84,10 +120,6 @@
   gap: 12px;
 }
 
-.card {
-  padding: 14px;
-}
-
 .cardMeta,
 .footer {
   font-size: 12px;
@@ -109,6 +141,24 @@
   align-items: center;
 }
 
+.actions {
+  margin-top: 14px;
+  align-items: center;
+}
+
+.actions form {
+  flex: 1;
+}
+
+.actions select,
+.deleteButton {
+  width: 100%;
+}
+
+.deleteButton {
+  background: rgba(127, 29, 29, 0.25);
+}
+
 .purple { border-color: rgba(139, 92, 246, 0.28); }
 .blue { border-color: rgba(59, 130, 246, 0.28); }
 .amber { border-color: rgba(245, 158, 11, 0.28); }
@@ -116,14 +166,18 @@
 
 @media (max-width: 1180px) {
   .summaryRow,
-  .board {
+  .board,
+  .formGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 780px) {
   .summaryRow,
-  .board {
+  .board,
+  .formGrid,
+  .actions {
     grid-template-columns: 1fr;
+    display: grid;
   }
 }

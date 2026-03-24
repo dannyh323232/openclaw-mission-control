@@ -1,0 +1,82 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.card,
+.actions button {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.card {
+  padding: 18px;
+}
+
+.topRow,
+.footer,
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.topRow small,
+.card p,
+.footer span {
+  color: #909ab0;
+}
+
+.status {
+  text-transform: capitalize;
+}
+
+.card h2 {
+  margin: 14px 0 8px;
+}
+
+.card p {
+  min-height: 78px;
+  line-height: 1.55;
+}
+
+.footer {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.actions {
+  margin-top: 14px;
+}
+
+.actions form {
+  flex: 1;
+}
+
+.actions button {
+  width: 100%;
+  min-height: 42px;
+  color: #eef2ff;
+}
+
+.approve { background: rgba(21, 128, 61, 0.26); }
+.reject { background: rgba(127, 29, 29, 0.25); }
+.amber { border-color: rgba(245, 158, 11, 0.28); }
+.green { border-color: rgba(34, 197, 94, 0.28); }
+.purple { border-color: rgba(139, 92, 246, 0.28); }
+
+@media (max-width: 1180px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

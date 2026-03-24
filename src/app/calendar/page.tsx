@@ -1,60 +1,75 @@
 import { AppChrome } from "../chrome";
 import styles from "./page.module.css";
+import { createScheduleItem, deleteScheduleItem } from "@/lib/actions";
+import { getMissionControlData } from "@/lib/store";
+import { formatDate, formatTime } from "@/lib/view-models";
 
-type Slot = { time: string; title: string; span?: number; tone: "purple" | "green" | "amber" | "blue" | "red" };
-type Day = { label: string; date: string; active?: boolean; slots: Slot[] };
+export const dynamic = "force-dynamic";
 
-const days: Day[] = [
-  { label: "Mon", date: "18", slots: [{ time: "08:30", title: "Trend radar", tone: "amber" }, { time: "09:00", title: "Morning briefing", tone: "blue", span: 2 }, { time: "13:00", title: "Clinic offer review", tone: "purple" }] },
-  { label: "Tue", date: "19", active: true, slots: [{ time: "08:45", title: "Kickoff queue", tone: "blue" }, { time: "10:00", title: "Mission Control rebuild", tone: "purple", span: 3 }, { time: "15:30", title: "Relay schema review", tone: "green" }] },
-  { label: "Wed", date: "20", slots: [{ time: "07:30", title: "YouTube recap", tone: "red" }, { time: "09:30", title: "CEO digest", tone: "amber" }, { time: "14:00", title: "Content planning", tone: "green", span: 2 }] },
-  { label: "Thu", date: "21", slots: [{ time: "08:00", title: "Security sweep", tone: "blue" }, { time: "11:00", title: "Project council", tone: "purple", span: 2 }, { time: "16:30", title: "Draft newsletter", tone: "amber" }] },
-  { label: "Fri", date: "22", slots: [{ time: "08:30", title: "Trend radar", tone: "amber" }, { time: "12:00", title: "Weekly review", tone: "purple", span: 2 }, { time: "17:30", title: "Wrap + handoff", tone: "green" }] },
-];
+const typeTone = {
+  focus: "purple",
+  meeting: "blue",
+  delivery: "green",
+  review: "amber",
+} as const;
 
-const hours = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
+export default async function CalendarPage() {
+  const data = await getMissionControlData();
+  const agentMap = new Map(data.agents.map((agent) => [agent.id, agent]));
+  const projectMap = new Map(data.projects.map((project) => [project.id, project]));
+  const items = [...data.scheduleItems].sort((a, b) => a.startsAt.localeCompare(b.startsAt));
 
-export default function CalendarPage() {
   return (
     <AppChrome
       active="calendar"
       title="Calendar"
-      description="A denser weekly task board with realistic scheduling weight and clearer time structure."
-      controls={<><button>Week</button><button>UTC+0</button></>}
+      description="Shared scheduled load with persisted items and quick add/remove actions for the local MVP."
+      controls={<><button>{items.length} items</button><button>{data.scheduleItems.filter((item) => item.type === "focus").length} focus blocks</button></>}
     >
       <div className={styles.metaRow}>
-        <div className={styles.metaCard}><span>Recurring jobs</span><strong>17</strong></div>
-        <div className={styles.metaCard}><span>Booked focus blocks</span><strong>11h</strong></div>
-        <div className={styles.metaCard}><span>Today’s load</span><strong>82%</strong></div>
+        <div className={styles.metaCard}><span>Recurring jobs</span><strong>{data.scheduleItems.filter((item) => item.type === "meeting").length}</strong></div>
+        <div className={styles.metaCard}><span>Booked focus blocks</span><strong>{data.scheduleItems.filter((item) => item.type === "focus").length}</strong></div>
+        <div className={styles.metaCard}><span>Review blocks</span><strong>{data.scheduleItems.filter((item) => item.type === "review").length}</strong></div>
       </div>
 
-      <div className={styles.calendar}>
-        <div className={styles.times}>
-          {hours.map((hour) => <span key={hour}>{hour}</span>)}
+      <section className={styles.composer}>
+        <div>
+          <span className={styles.sectionKicker}>Create schedule item</span>
+          <h2>Add a new block to the operating calendar</h2>
         </div>
-        {days.map((day) => (
-          <section key={day.label} className={`${styles.day} ${day.active ? styles.active : ""}`}>
-            <div className={styles.dayHeader}>
-              <span>{day.label}</span>
-              <strong>{day.date}</strong>
+        <form action={createScheduleItem} className={styles.formGrid}>
+          <input name="title" placeholder="Block title" required />
+          <select name="ownerId" defaultValue={data.agents[0]?.id}>{data.agents.map((agent) => <option key={agent.id} value={agent.id}>{agent.name}</option>)}</select>
+          <select name="projectId" defaultValue={data.projects[0]?.id}>{data.projects.map((project) => <option key={project.id} value={project.id}>{project.title}</option>)}</select>
+          <input type="datetime-local" name="startsAt" required />
+          <input type="datetime-local" name="endsAt" required />
+          <select name="type" defaultValue="focus">
+            <option value="focus">Focus</option>
+            <option value="meeting">Meeting</option>
+            <option value="delivery">Delivery</option>
+            <option value="review">Review</option>
+          </select>
+          <button type="submit">Add item</button>
+        </form>
+      </section>
+
+      <div className={styles.list}>
+        {items.map((item) => (
+          <article key={item.id} className={`${styles.item} ${styles[typeTone[item.type]]}`}>
+            <div>
+              <small>{formatDate(item.startsAt)}</small>
+              <h2>{item.title}</h2>
+              <p>{formatTime(item.startsAt)}–{formatTime(item.endsAt)} · {agentMap.get(item.ownerId)?.name ?? item.ownerId}</p>
             </div>
-            <div className={styles.grid}>
-              {hours.map((hour) => <div key={hour} className={styles.hourLine} />)}
-              {day.slots.map((slot) => {
-                const row = Math.max(1, hours.indexOf(slot.time) + 1);
-                return (
-                  <article
-                    key={`${day.label}-${slot.title}`}
-                    className={`${styles.slot} ${styles[slot.tone]}`}
-                    style={{ gridRow: `${row} / span ${slot.span ?? 1}` }}
-                  >
-                    <small>{slot.time}</small>
-                    <strong>{slot.title}</strong>
-                  </article>
-                );
-              })}
+            <div className={styles.sideMeta}>
+              <span>{projectMap.get(item.projectId)?.title ?? "Unknown project"}</span>
+              <strong>{item.type}</strong>
+              <form action={deleteScheduleItem}>
+                <input type="hidden" name="id" value={item.id} />
+                <button type="submit">Delete</button>
+              </form>
             </div>
-          </section>
+          </article>
         ))}
       </div>
     </AppChrome>

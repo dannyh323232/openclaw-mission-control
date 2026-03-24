@@ -1,0 +1,287 @@
+{
+  "tasks": [
+    {
+      "id": "task-ops-digest",
+      "title": "CEO exception digest",
+      "detail": "Reduce noise to approvals, blockers, and high-risk asks before Daniel sees them.",
+      "ownerId": "henry",
+      "projectId": "project-ceo-relay",
+      "dueAt": "2026-03-24T09:20:00.000Z",
+      "lane": "now",
+      "priority": "critical"
+    },
+    {
+      "id": "task-homepage-retune",
+      "title": "Homepage conversion retune",
+      "detail": "Tighten hero to consultation CTA flow and remove friction in the path.",
+      "ownerId": "quill",
+      "projectId": "project-refined-conversion",
+      "dueAt": "2026-03-24T10:40:00.000Z",
+      "lane": "queued",
+      "priority": "high"
+    },
+    {
+      "id": "task-mc-mvp",
+      "title": "Mission Control local MVP",
+      "detail": "Swap static cards for shared persisted data with working CRUD and an approvals queue.",
+      "ownerId": "codex",
+      "projectId": "project-mission-control",
+      "dueAt": "2026-03-24T12:00:00.000Z",
+      "lane": "building",
+      "priority": "critical"
+    },
+    {
+      "id": "task-relay-model",
+      "title": "Relay event model",
+      "detail": "Keep the shared event shape coherent so Discord and Telegram can plug in later.",
+      "ownerId": "charlie",
+      "projectId": "project-relay",
+      "dueAt": "2026-03-24T14:10:00.000Z",
+      "lane": "building",
+      "priority": "medium"
+    },
+    {
+      "id": "task-staffing-review",
+      "title": "Weekly agent staffing",
+      "detail": "Review capacity split across research, content, systems, and QA.",
+      "ownerId": "manager",
+      "projectId": "project-content-factory",
+      "dueAt": "2026-03-24T16:00:00.000Z",
+      "lane": "review",
+      "priority": "medium"
+    },
+    {
+      "id": "task-deploy-verify",
+      "title": "Deploy path verification",
+      "detail": "Confirm the true publish route so website changes stop shipping blind.",
+      "ownerId": "charlie",
+      "projectId": "project-refined-conversion",
+      "dueAt": "2026-03-24T11:30:00.000Z",
+      "lane": "now",
+      "priority": "high"
+    }
+  ],
+  "projects": [
+    {
+      "id": "project-mission-control",
+      "title": "Mission Control",
+      "summary": "Local operations cockpit for tasks, planning, approvals, memory, and agent visibility.",
+      "ownerId": "codex",
+      "dueDate": "2026-03-28",
+      "progress": 82,
+      "health": "on-track"
+    },
+    {
+      "id": "project-refined-conversion",
+      "title": "Refined conversion system",
+      "summary": "Homepage, trust proof, CTA flow, and clinic growth improvements.",
+      "ownerId": "quill",
+      "dueDate": "2026-03-29",
+      "progress": 58,
+      "health": "at-risk"
+    },
+    {
+      "id": "project-relay",
+      "title": "Relay layer",
+      "summary": "Shared event transport for messaging surfaces, approvals, and background automation.",
+      "ownerId": "charlie",
+      "dueDate": "2026-03-31",
+      "progress": 63,
+      "health": "on-track"
+    },
+    {
+      "id": "project-content-factory",
+      "title": "Content factory",
+      "summary": "Repeatable reels, captions, media plans, and publishing workflows.",
+      "ownerId": "quill",
+      "dueDate": "2026-04-01",
+      "progress": 49,
+      "health": "planning"
+    },
+    {
+      "id": "project-ceo-relay",
+      "title": "CEO exception queue",
+      "summary": "Keep Daniel focused on decisions, blockers, approvals, and high-risk asks only.",
+      "ownerId": "henry",
+      "dueDate": "2026-03-25",
+      "progress": 81,
+      "health": "on-track"
+    }
+  ],
+  "scheduleItems": [
+    {
+      "id": "schedule-briefing",
+      "title": "Morning briefing",
+      "ownerId": "henry",
+      "projectId": "project-ceo-relay",
+      "startsAt": "2026-03-24T09:00:00.000Z",
+      "endsAt": "2026-03-24T10:00:00.000Z",
+      "type": "meeting"
+    },
+    {
+      "id": "schedule-mvp-build",
+      "title": "Mission Control MVP build",
+      "ownerId": "codex",
+      "projectId": "project-mission-control",
+      "startsAt": "2026-03-24T10:00:00.000Z",
+      "endsAt": "2026-03-24T13:00:00.000Z",
+      "type": "focus"
+    },
+    {
+      "id": "schedule-relay-review",
+      "title": "Relay schema review",
+      "ownerId": "charlie",
+      "projectId": "project-relay",
+      "startsAt": "2026-03-24T15:30:00.000Z",
+      "endsAt": "2026-03-24T16:30:00.000Z",
+      "type": "review"
+    },
+    {
+      "id": "schedule-weekly-review",
+      "title": "Weekly review",
+      "ownerId": "henry",
+      "projectId": "project-ceo-relay",
+      "startsAt": "2026-03-28T12:00:00.000Z",
+      "endsAt": "2026-03-28T14:00:00.000Z",
+      "type": "meeting"
+    }
+  ],
+  "memoryEntries": [
+    {
+      "id": "memory-2026-03-24",
+      "title": "2026-03-24 — Monday",
+      "date": "2026-03-24",
+      "summary": "Mission Control shifted from a visual rebuild into a usable local MVP with persisted operating data.",
+      "content": [
+        "Visibility keeps beating aesthetics. The dashboard only becomes trusted when actions, blockers, and ownership are obvious.",
+        "The local MVP should stay deliberately simple: one shared model, one persisted file, and enough CRUD to run the workflow by hand.",
+        "Approvals deserve their own screen because that is the clearest CEO exception queue surface."
+      ],
+      "tags": ["mission-control", "mvp", "ops"]
+    },
+    {
+      "id": "memory-2026-03-22",
+      "title": "2026-03-22 — Saturday",
+      "date": "2026-03-22",
+      "summary": "The command layer should filter noise rather than simply mirror every event from underlying tools.",
+      "content": [
+        "Daniel needs concise exceptions, not another busy chat feed.",
+        "Any polished UI still has to answer: what matters now, who owns it, and what is blocked?"
+      ],
+      "tags": ["direction", "ceo-relay"]
+    }
+  ],
+  "agents": [
+    {
+      "id": "henry",
+      "name": "Henry",
+      "role": "Chief of Staff",
+      "lane": "Command",
+      "load": 94,
+      "summary": "Routes work, shields the CEO from noise, and decides what deserves escalation.",
+      "status": "busy"
+    },
+    {
+      "id": "charlie",
+      "name": "Charlie",
+      "role": "Infrastructure",
+      "lane": "Systems",
+      "load": 88,
+      "summary": "Owns automations, event routing, and the plumbing behind reliable ops.",
+      "status": "busy"
+    },
+    {
+      "id": "scout",
+      "name": "Scout",
+      "role": "Trend Analyst",
+      "lane": "Signal",
+      "load": 71,
+      "summary": "Scans fast for hooks, angles, and market movement.",
+      "status": "online"
+    },
+    {
+      "id": "quill",
+      "name": "Quill",
+      "role": "Writer",
+      "lane": "Output",
+      "load": 76,
+      "summary": "Turns raw direction into hooks, scripts, captions, and persuasive assets.",
+      "status": "busy"
+    },
+    {
+      "id": "codex",
+      "name": "Codex",
+      "role": "Builder",
+      "lane": "Build",
+      "load": 83,
+      "summary": "Implements product changes and keeps the local system shipping.",
+      "status": "busy"
+    },
+    {
+      "id": "manager",
+      "name": "Manager",
+      "role": "Operations",
+      "lane": "Assurance",
+      "load": 57,
+      "summary": "Checks capacity, handoffs, and execution balance.",
+      "status": "online"
+    }
+  ],
+  "approvals": [
+    {
+      "id": "approval-shopify-theme",
+      "title": "Approve homepage CTA copy refresh",
+      "detail": "Publish a stronger consultation CTA and trust-proof block on the Refined homepage.",
+      "projectId": "project-refined-conversion",
+      "requestedBy": "Quill",
+      "requestedAt": "2026-03-24T08:48:00.000Z",
+      "status": "pending"
+    },
+    {
+      "id": "approval-calendar-shift",
+      "title": "Approve Friday council move",
+      "detail": "Shift the weekly review block one hour later to avoid overlap with a clinic handoff.",
+      "projectId": "project-ceo-relay",
+      "requestedBy": "Henry",
+      "requestedAt": "2026-03-24T09:12:00.000Z",
+      "status": "pending"
+    },
+    {
+      "id": "approval-ops-note",
+      "title": "Approve local MVP scope cut",
+      "detail": "Defer live Discord and Telegram syncing until after the local CRUD MVP is stable.",
+      "projectId": "project-mission-control",
+      "requestedBy": "Codex",
+      "requestedAt": "2026-03-24T09:50:00.000Z",
+      "status": "approved"
+    }
+  ],
+  "events": [
+    {
+      "id": "event-1",
+      "timestamp": "2026-03-24T08:45:00.000Z",
+      "actor": "Henry",
+      "type": "approval",
+      "message": "Queued a homepage copy approval for Daniel."
+    },
+    {
+      "id": "event-2",
+      "timestamp": "2026-03-24T09:05:00.000Z",
+      "actor": "Charlie",
+      "type": "system",
+      "message": "Relay schema draft updated for future Discord and Telegram sync."
+    },
+    {
+      "id": "event-3",
+      "timestamp": "2026-03-24T09:40:00.000Z",
+      "actor": "Codex",
+      "type": "build",
+      "message": "Mission Control local MVP work resumed from the UI rebuild baseline."
+    }
+  ],
+  "longTermNotes": [
+    "Workflow visibility beats aesthetics, but the aesthetics still need to communicate confidence.",
+    "Mission Control should become the canonical shared state, with Discord and Telegram acting as surfaces on top.",
+    "CEO mode is exceptions only: decisions, blockers, approvals, and high-risk actions."
+  ]
+}

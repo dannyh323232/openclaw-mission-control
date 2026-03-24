@@ -1,173 +1,69 @@
-import Link from "next/link";
-import shell from "../shared-shell.module.css";
+import { AppChrome } from "../chrome";
 import styles from "./page.module.css";
 
-type NavItem = { label: string; href: string; active?: boolean };
-type TaskStatus = "Recurring" | "Backlog" | "In Progress" | "Review";
+type Lane = "Now" | "Queued" | "Building" | "Review";
+
 type Task = {
   title: string;
-  description: string;
+  detail: string;
   owner: string;
   project: string;
-  status: TaskStatus;
-  tone: "red" | "amber" | "purple" | "green";
+  eta: string;
+  lane: Lane;
+  tone: "purple" | "blue" | "amber" | "green";
 };
 
-const navItems: NavItem[] = [
-  { label: "Tasks", href: "/tasks", active: true },
-  { label: "Agents", href: "/agents" },
-  { label: "Content", href: "/content" },
-  { label: "Approvals", href: "/approvals" },
-  { label: "Council", href: "/council" },
-  { label: "Calendar", href: "/calendar" },
-  { label: "Projects", href: "/projects" },
-  { label: "Memory", href: "/memory" },
-  { label: "Docs", href: "/docs" },
-  { label: "People", href: "/people" },
-  { label: "Office", href: "/office" },
-  { label: "Team", href: "/team" },
-  { label: "System", href: "/system" },
-  { label: "Radar", href: "/radar" },
-  { label: "Factory", href: "/factory" },
-  { label: "Pipeline", href: "/pipeline" },
-  { label: "Feedback", href: "/feedback" },
-];
-
 const tasks: Task[] = [
-  {
-    title: "Morning office startup flow",
-    description: "Recurring queue review, scheduled checks, and activation.",
-    owner: "Manager",
-    project: "Operations",
-    status: "Recurring",
-    tone: "purple",
-  },
-  {
-    title: "Confirm live deploy path",
-    description: "Validate real publish path so SEO and WEB stop working blind.",
-    owner: "SEO",
-    project: "Refined Site",
-    status: "Backlog",
-    tone: "red",
-  },
-  {
-    title: "Tighten homepage → WBco CTA flow",
-    description: "Increase retail click-through and reduce homepage drop-off.",
-    owner: "Web",
-    project: "Conversion",
-    status: "Backlog",
-    tone: "red",
-  },
-  {
-    title: "Build Mission Control dashboard shell",
-    description: "Create denser dashboard layout matching mission-control pattern.",
-    owner: "Manager",
-    project: "Mission Control",
-    status: "In Progress",
-    tone: "purple",
-  },
-  {
-    title: "Design relay model for Discord + Telegram",
-    description: "Backend-first shared event model, not chat-led orchestration.",
-    owner: "Systems",
-    project: "Relay Layer",
-    status: "In Progress",
-    tone: "green",
-  },
-  {
-    title: "Create CEO exception queue",
-    description: "Only surface approvals, blockers, decisions, and high-risk actions.",
-    owner: "Manager",
-    project: "Mission Control",
-    status: "Review",
-    tone: "amber",
-  },
+  { title: "CEO exception digest", detail: "Reduce noise to approvals, blockers, and high-risk asks.", owner: "Henry", project: "Ops", eta: "09:20", lane: "Now", tone: "purple" },
+  { title: "Homepage conversion retune", detail: "Tighten the hero → consultation CTA flow and lower friction.", owner: "Web", project: "Refined", eta: "10:40", lane: "Queued", tone: "amber" },
+  { title: "Mission Control visual rebuild", detail: "Premium shell, denser hierarchy, stronger realism across all views.", owner: "Codex", project: "Console", eta: "Today", lane: "Building", tone: "blue" },
+  { title: "Relay event model", detail: "Shared event schema for Discord, Telegram, and cron-driven actions.", owner: "Charlie", project: "Systems", eta: "14:10", lane: "Building", tone: "green" },
+  { title: "Weekly agent staffing", detail: "Rebalance shift windows around research, content, and delivery demand.", owner: "Manager", project: "Org", eta: "16:00", lane: "Review", tone: "purple" },
+  { title: "Clinic social capture list", detail: "Translate campaign plan into realistic shoot tasks for Rachel.", owner: "Scout", project: "Content", eta: "11:30", lane: "Queued", tone: "green" },
+  { title: "Deploy-path verification", detail: "Confirm the real publish route so SEO changes stop shipping blind.", owner: "Ops", project: "Infra", eta: "Blocked", lane: "Now", tone: "amber" },
+  { title: "Daily recap template", detail: "Sharper evening wrap with wins, misses, and tomorrow’s carry-over.", owner: "Quill", project: "Comms", eta: "17:45", lane: "Review", tone: "purple" },
 ];
 
-const columns: TaskStatus[] = ["Recurring", "Backlog", "In Progress", "Review"];
-
-function toneClass(tone: Task["tone"]) {
-  switch (tone) {
-    case "red":
-      return styles.toneRed;
-    case "amber":
-      return styles.toneAmber;
-    case "purple":
-      return styles.tonePurple;
-    case "green":
-      return styles.toneGreen;
-  }
-}
+const lanes: Lane[] = ["Now", "Queued", "Building", "Review"];
 
 export default function TasksPage() {
   return (
-    <main className={shell.shell}>
-      <aside className={shell.sidebar}>
-        <div className={shell.brand}>
-          <div className={shell.brandMark}>⌘</div>
-          <span>Mission Control</span>
-        </div>
-        <nav className={shell.nav}>
-          {navItems.map((item) => (
-            <Link key={item.label} href={item.href} className={`${shell.navItem} ${item.active ? shell.navItemActive : ""}`}>
-              <span className={shell.navIcon}>◻</span>
-              <span>{item.label}</span>
-            </Link>
-          ))}
-        </nav>
-        <div className={shell.sidebarFoot}>
-          <div className={shell.avatar}>N</div>
-        </div>
-      </aside>
+    <AppChrome
+      active="tasks"
+      title="Tasks"
+      description="Live execution lanes with clearer urgency, ownership, and delivery pacing."
+      controls={<><button>Filters</button><button>Sort: urgency</button></>}
+    >
+      <div className={styles.summaryRow}>
+        <div className={styles.summaryCard}><span>Open items</span><strong>28</strong><small>6 due this morning</small></div>
+        <div className={styles.summaryCard}><span>Active builders</span><strong>09</strong><small>2 shipping now</small></div>
+        <div className={styles.summaryCard}><span>Escalations</span><strong>03</strong><small>1 waiting on Daniel</small></div>
+        <div className={styles.summaryCard}><span>Throughput</span><strong>81%</strong><small>Above weekly baseline</small></div>
+      </div>
 
-      <section className={shell.main}>
-        <header className={shell.topbar}>
-          <div className={shell.search}>⌕ Search</div>
-          <div className={shell.topActions}>
-            <button className={shell.ghostButton}>Pause</button>
-            <button className={shell.ghostButton}>Ping Henry</button>
-            <span className={shell.topIcon}>◌</span>
-            <span className={shell.topIcon}>◔</span>
-          </div>
-        </header>
-
-        <section className={shell.panel}>
-          <div className={shell.panelHeader}>
-            <div>
-              <h1>Tasks</h1>
-              <p>Kanban-style operational view</p>
-            </div>
-          </div>
-
-          <div className={styles.board}>
-            {columns.map((column) => (
-              <div key={column} className={styles.column}>
-                <div className={styles.columnHeader}>
-                  <h2>{column}</h2>
-                  <span>{tasks.filter((task) => task.status === column).length}</span>
-                </div>
-                <div className={styles.stack}>
-                  {tasks
-                    .filter((task) => task.status === column)
-                    .map((task) => (
-                      <article key={task.title} className={styles.card}>
-                        <div className={styles.cardTop}>
-                          <span className={`${styles.dot} ${toneClass(task.tone)}`} />
-                          <span className={styles.owner}>{task.owner}</span>
-                        </div>
-                        <h3>{task.title}</h3>
-                        <p>{task.description}</p>
-                        <div className={styles.meta}>
-                          <span>{task.project}</span>
-                        </div>
-                      </article>
-                    ))}
-                </div>
+      <div className={styles.board}>
+        {lanes.map((lane) => (
+          <section key={lane} className={styles.column}>
+            <div className={styles.columnHeader}>
+              <div>
+                <strong>{lane}</strong>
+                <span>{tasks.filter((task) => task.lane === lane).length} cards</span>
               </div>
-            ))}
-          </div>
-        </section>
-      </section>
-    </main>
+              <b>{lane === "Now" ? "Hot" : lane === "Building" ? "Live" : "Stable"}</b>
+            </div>
+            <div className={styles.stack}>
+              {tasks.filter((task) => task.lane === lane).map((task) => (
+                <article key={task.title} className={`${styles.card} ${styles[task.tone]}`}>
+                  <div className={styles.cardMeta}><span>{task.owner}</span><span>{task.eta}</span></div>
+                  <h2>{task.title}</h2>
+                  <p>{task.detail}</p>
+                  <div className={styles.footer}><strong>{task.project}</strong><small>Priority queue</small></div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </AppChrome>
   );
 }

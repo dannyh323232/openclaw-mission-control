@@ -1,264 +1,62 @@
-import Link from "next/link";
-import shell from "../shared-shell.module.css";
+import { AppChrome } from "../chrome";
 import styles from "./page.module.css";
 
-type DayName = "Sun" | "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat";
+type Slot = { time: string; title: string; span?: number; tone: "purple" | "green" | "amber" | "blue" | "red" };
+type Day = { label: string; date: string; active?: boolean; slots: Slot[] };
 
-type NavItem = {
-  label: string;
-  href: string;
-  active?: boolean;
-};
-
-type StatChip = {
-  label: string;
-  tone: "slate" | "amber" | "green";
-};
-
-type ScheduledTask = {
-  title: string;
-  time: string;
-  tone: "orange" | "red" | "green" | "amber" | "slate" | "blue" | "purple";
-};
-
-type DayColumn = {
-  day: DayName;
-  active?: boolean;
-  items: ScheduledTask[];
-};
-
-const navItems: NavItem[] = [
-  { label: "Tasks", href: "/tasks" },
-  { label: "Agents", href: "/agents" },
-  { label: "Content", href: "/content" },
-  { label: "Approvals", href: "/approvals" },
-  { label: "Council", href: "/council" },
-  { label: "Calendar", href: "/calendar", active: true },
-  { label: "Projects", href: "/projects" },
-  { label: "Memory", href: "/memory" },
-  { label: "Docs", href: "/docs" },
-  { label: "People", href: "/people" },
-  { label: "Office", href: "/office" },
-  { label: "Team", href: "/team" },
-  { label: "System", href: "/system" },
-  { label: "Radar", href: "/radar" },
-  { label: "Factory", href: "/factory" },
-  { label: "Pipeline", href: "/pipeline" },
-  { label: "Feedback", href: "/feedback" },
+const days: Day[] = [
+  { label: "Mon", date: "18", slots: [{ time: "08:30", title: "Trend radar", tone: "amber" }, { time: "09:00", title: "Morning briefing", tone: "blue", span: 2 }, { time: "13:00", title: "Clinic offer review", tone: "purple" }] },
+  { label: "Tue", date: "19", active: true, slots: [{ time: "08:45", title: "Kickoff queue", tone: "blue" }, { time: "10:00", title: "Mission Control rebuild", tone: "purple", span: 3 }, { time: "15:30", title: "Relay schema review", tone: "green" }] },
+  { label: "Wed", date: "20", slots: [{ time: "07:30", title: "YouTube recap", tone: "red" }, { time: "09:30", title: "CEO digest", tone: "amber" }, { time: "14:00", title: "Content planning", tone: "green", span: 2 }] },
+  { label: "Thu", date: "21", slots: [{ time: "08:00", title: "Security sweep", tone: "blue" }, { time: "11:00", title: "Project council", tone: "purple", span: 2 }, { time: "16:30", title: "Draft newsletter", tone: "amber" }] },
+  { label: "Fri", date: "22", slots: [{ time: "08:30", title: "Trend radar", tone: "amber" }, { time: "12:00", title: "Weekly review", tone: "purple", span: 2 }, { time: "17:30", title: "Wrap + handoff", tone: "green" }] },
 ];
 
-const alwaysRunning: StatChip[] = [
-  { label: "Reaction Pulse • Every 5 min", tone: "slate" },
-  { label: "Trend Radar • 5x daily", tone: "amber" },
-  { label: "Opportunity Scanner • 8x daily", tone: "green" },
-];
-
-const week: DayColumn[] = [
-  {
-    day: "Sun",
-    items: [
-      { title: "Trend Radar", time: "8:30 AM", tone: "orange" },
-      { title: "Morning Kickoff", time: "8:45 AM", tone: "slate" },
-      { title: "YouTube OpenClaw Recap", time: "7:30 AM", tone: "red" },
-      { title: "Scout Morning Research", time: "8:00 AM", tone: "green" },
-      { title: "Morning Brief", time: "9:00 AM", tone: "amber" },
-      { title: "Trend Radar Daily Digest", time: "9:30 AM", tone: "slate" },
-      { title: "Daily Digest", time: "9:00 AM", tone: "purple" },
-      { title: "Evening Wrap Up", time: "6:00 PM", tone: "slate" },
-    ],
-  },
-  {
-    day: "Mon",
-    items: [
-      { title: "Trend Radar", time: "8:30 AM", tone: "orange" },
-      { title: "Morning Kickoff", time: "8:45 AM", tone: "slate" },
-      { title: "YouTube OpenClaw Recap", time: "7:30 AM", tone: "red" },
-      { title: "Block Security Research", time: "7:30 AM", tone: "slate" },
-      { title: "Scout Morning Research", time: "8:00 AM", tone: "green" },
-      { title: "Morning Brief", time: "9:00 AM", tone: "amber" },
-      { title: "Trend Radar Daily Digest", time: "9:30 AM", tone: "slate" },
-      { title: "Quill Script Writer", time: "5:30 AM", tone: "blue" },
-      { title: "Daily Digest", time: "9:00 AM", tone: "purple" },
-      { title: "Evening Wrap Up", time: "6:00 PM", tone: "slate" },
-    ],
-  },
-  {
-    day: "Tue",
-    active: true,
-    items: [
-      { title: "Trend Radar", time: "8:30 AM", tone: "orange" },
-      { title: "Morning Kickoff", time: "8:45 AM", tone: "slate" },
-      { title: "YouTube OpenClaw Recap", time: "7:30 AM", tone: "red" },
-      { title: "Scout Morning Research", time: "8:00 AM", tone: "green" },
-      { title: "Morning Brief", time: "9:00 AM", tone: "amber" },
-      { title: "Trend Radar Daily Digest", time: "9:30 AM", tone: "slate" },
-      { title: "Quill Script Writer", time: "5:30 AM", tone: "blue" },
-      { title: "Daily Digest", time: "9:00 AM", tone: "purple" },
-      { title: "Evening Wrap Up", time: "6:00 PM", tone: "slate" },
-    ],
-  },
-  {
-    day: "Wed",
-    items: [
-      { title: "Trend Radar", time: "8:30 AM", tone: "orange" },
-      { title: "Morning Kickoff", time: "8:45 AM", tone: "slate" },
-      { title: "YouTube OpenClaw Recap", time: "7:30 AM", tone: "red" },
-      { title: "Scout Morning Research", time: "8:00 AM", tone: "green" },
-      { title: "Morning Brief", time: "9:00 AM", tone: "amber" },
-      { title: "Trend Radar Daily Digest", time: "9:30 AM", tone: "slate" },
-      { title: "Quill Script Writer", time: "5:30 AM", tone: "blue" },
-      { title: "Daily Digest", time: "9:00 AM", tone: "purple" },
-      { title: "Evening Wrap Up", time: "6:00 PM", tone: "slate" },
-      { title: "Weekly Newsletter Draft", time: "5:00 PM", tone: "purple" },
-    ],
-  },
-  {
-    day: "Thu",
-    items: [
-      { title: "Trend Radar", time: "8:30 AM", tone: "orange" },
-      { title: "Morning Kickoff", time: "8:45 AM", tone: "slate" },
-      { title: "YouTube OpenClaw Recap", time: "7:30 AM", tone: "red" },
-      { title: "Scout Morning Research", time: "8:00 AM", tone: "green" },
-      { title: "Morning Brief", time: "9:00 AM", tone: "amber" },
-      { title: "Trend Radar Daily Digest", time: "9:30 AM", tone: "slate" },
-      { title: "Quill Script Writer", time: "5:30 AM", tone: "blue" },
-      { title: "Daily Digest", time: "9:00 AM", tone: "purple" },
-      { title: "Evening Wrap Up", time: "6:00 PM", tone: "slate" },
-    ],
-  },
-  {
-    day: "Fri",
-    items: [
-      { title: "Trend Radar", time: "8:30 AM", tone: "orange" },
-      { title: "Morning Kickoff", time: "8:45 AM", tone: "slate" },
-      { title: "YouTube OpenClaw Recap", time: "7:30 AM", tone: "red" },
-      { title: "Scout Morning Research", time: "8:00 AM", tone: "green" },
-      { title: "Morning Brief", time: "9:00 AM", tone: "amber" },
-      { title: "Trend Radar Daily Digest", time: "9:30 AM", tone: "slate" },
-      { title: "Quill Script Writer", time: "5:30 AM", tone: "blue" },
-      { title: "Daily Digest", time: "9:00 AM", tone: "purple" },
-      { title: "Evening Wrap Up", time: "6:00 PM", tone: "slate" },
-    ],
-  },
-  {
-    day: "Sat",
-    items: [
-      { title: "Trend Radar", time: "8:30 AM", tone: "orange" },
-      { title: "Morning Kickoff", time: "8:45 AM", tone: "slate" },
-      { title: "YouTube OpenClaw Recap", time: "7:30 AM", tone: "red" },
-      { title: "Scout Morning Research", time: "8:00 AM", tone: "green" },
-      { title: "Morning Brief", time: "9:00 AM", tone: "amber" },
-      { title: "Trend Radar Daily Digest", time: "9:30 AM", tone: "slate" },
-      { title: "Quill Script Writer", time: "5:30 AM", tone: "blue" },
-      { title: "Daily Digest", time: "9:00 AM", tone: "purple" },
-      { title: "Evening Wrap Up", time: "6:00 PM", tone: "slate" },
-    ],
-  },
-];
-
-function toneClass(tone: ScheduledTask["tone"] | StatChip["tone"]) {
-  switch (tone) {
-    case "orange":
-    case "amber":
-      return styles.toneOrange;
-    case "red":
-      return styles.toneRed;
-    case "green":
-      return styles.toneGreen;
-    case "slate":
-      return styles.toneSlate;
-    case "blue":
-      return styles.toneBlue;
-    case "purple":
-      return styles.tonePurple;
-  }
-}
+const hours = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
 
 export default function CalendarPage() {
   return (
-    <main className={shell.shell}>
-      <aside className={shell.sidebar}>
-        <div className={shell.brand}>
-          <div className={shell.brandMark}>⌘</div>
-          <span>Mission Control</span>
+    <AppChrome
+      active="calendar"
+      title="Calendar"
+      description="A denser weekly task board with realistic scheduling weight and clearer time structure."
+      controls={<><button>Week</button><button>UTC+0</button></>}
+    >
+      <div className={styles.metaRow}>
+        <div className={styles.metaCard}><span>Recurring jobs</span><strong>17</strong></div>
+        <div className={styles.metaCard}><span>Booked focus blocks</span><strong>11h</strong></div>
+        <div className={styles.metaCard}><span>Today’s load</span><strong>82%</strong></div>
+      </div>
+
+      <div className={styles.calendar}>
+        <div className={styles.times}>
+          {hours.map((hour) => <span key={hour}>{hour}</span>)}
         </div>
-
-        <nav className={shell.nav}>
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={`${shell.navItem} ${item.active ? shell.navItemActive : ""}`}
-            >
-              <span className={shell.navIcon}>◻</span>
-              <span>{item.label}</span>
-            </Link>
-          ))}
-        </nav>
-
-        <div className={shell.sidebarFoot}>
-          <div className={shell.avatar}>N</div>
-        </div>
-      </aside>
-
-      <section className={shell.main}>
-        <header className={shell.topbar}>
-          <div className={shell.search}>⌕ Search</div>
-          <div className={shell.topActions}>
-            <button className={shell.ghostButton}>Pause</button>
-            <button className={shell.ghostButton}>Ping Henry</button>
-            <span className={shell.topIcon}>◌</span>
-            <span className={shell.topIcon}>◔</span>
-          </div>
-        </header>
-
-        <section className={shell.panel}>
-          <div className={shell.panelHeader}>
-            <div>
-              <h1>Scheduled Tasks</h1>
-              <p>Henry&apos;s automated routines</p>
+        {days.map((day) => (
+          <section key={day.label} className={`${styles.day} ${day.active ? styles.active : ""}`}>
+            <div className={styles.dayHeader}>
+              <span>{day.label}</span>
+              <strong>{day.date}</strong>
             </div>
-            <div className={shell.calendarToggles}>
-              <button className={shell.toggleActive}>Week</button>
-              <button className={shell.toggle}>Today</button>
-              <button className={shell.iconButton}>⟳</button>
+            <div className={styles.grid}>
+              {hours.map((hour) => <div key={hour} className={styles.hourLine} />)}
+              {day.slots.map((slot) => {
+                const row = Math.max(1, hours.indexOf(slot.time) + 1);
+                return (
+                  <article
+                    key={`${day.label}-${slot.title}`}
+                    className={`${styles.slot} ${styles[slot.tone]}`}
+                    style={{ gridRow: `${row} / span ${slot.span ?? 1}` }}
+                  >
+                    <small>{slot.time}</small>
+                    <strong>{slot.title}</strong>
+                  </article>
+                );
+              })}
             </div>
-          </div>
-
-          <div className={styles.alwaysRunningBox}>
-            <div className={styles.alwaysHeader}>⚡ Always Running</div>
-            <div className={styles.chipRow}>
-              {alwaysRunning.map((chip) => (
-                <span key={chip.label} className={`${styles.chip} ${toneClass(chip.tone)}`}>
-                  {chip.label}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className={styles.weekGrid}>
-            {week.map((day) => (
-              <section
-                key={day.day}
-                className={`${styles.dayColumn} ${day.active ? styles.dayColumnActive : ""}`}
-              >
-                <div className={styles.dayHeader}>{day.day}</div>
-                <div className={styles.dayStack}>
-                  {day.items.map((item, index) => (
-                    <article
-                      key={`${day.day}-${item.title}-${index}`}
-                      className={`${styles.taskCard} ${toneClass(item.tone)}`}
-                    >
-                      <strong>{item.title}</strong>
-                      <span>{item.time}</span>
-                    </article>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
-      </section>
-    </main>
+          </section>
+        ))}
+      </div>
+    </AppChrome>
   );
 }

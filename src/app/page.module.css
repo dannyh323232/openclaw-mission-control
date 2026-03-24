@@ -1,30 +1,41 @@
-.homeCards {
+.grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
-.homeCard {
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(23, 23, 26, 0.98);
+.card {
+  min-height: 180px;
+  border-radius: 22px;
   padding: 18px;
+  background: linear-gradient(180deg, rgba(19, 25, 38, 0.95), rgba(10, 14, 22, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
-.homeCard strong {
-  font-size: 16px;
+.kicker {
+  color: #93a0bb;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
 }
 
-.homeCard span {
-  color: #8f95a8;
-  font-size: 13px;
+.card strong {
+  font-size: 22px;
 }
 
-@media (max-width: 900px) {
-  .homeCards {
+.card p {
+  color: #8e98ad;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 1080px) {
+  .grid {
     grid-template-columns: 1fr;
   }
 }

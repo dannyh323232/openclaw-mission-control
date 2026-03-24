@@ -1,5 +1,5 @@
 :root {
-  --background: #0b1020;
+  --background: #05070d;
   --foreground: #eef2ff;
 }
 
@@ -16,8 +16,8 @@ body {
 body {
   min-height: 100%;
   color: var(--foreground);
-  background: radial-gradient(circle at top, #172554 0%, #0b1020 42%);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #05070d;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -26,6 +26,17 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
 }
 
 a {

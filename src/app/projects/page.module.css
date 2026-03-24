@@ -1,135 +1,103 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .card {
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(23, 23, 26, 0.98);
-  padding: 16px;
-  min-height: 250px;
+  min-height: 260px;
+  border-radius: 22px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(19, 24, 37, 0.96), rgba(10, 14, 22, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-.cardTop,
+.topRow,
 .progressMeta,
-.ownerRow {
+.footer {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
 }
 
-.projectIcon,
-.ownerBadge {
-  width: 28px;
-  height: 28px;
-  border-radius: 9px;
-  display: grid;
-  place-items: center;
-  background: rgba(16, 185, 129, 0.16);
-  color: #6ee7b7;
-  font-size: 12px;
+.topRow {
+  align-items: center;
 }
 
-.statusBadge,
-.priorityBadge {
-  height: 24px;
-  padding: 0 9px;
-  border-radius: 999px;
+.topRow small,
+.card p,
+.progressMeta span,
+.footer small {
+  color: #909ab0;
+}
+
+.health {
   display: inline-flex;
   align-items: center;
-  font-size: 11px;
-}
-
-.statusActive {
-  background: rgba(34, 197, 94, 0.14);
-  color: #86efac;
-}
-
-.statusPlanning {
-  background: rgba(139, 92, 246, 0.16);
-  color: #c4b5fd;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .card h2 {
-  font-size: 18px;
-  margin: 14px 0 10px;
+  margin: 18px 0 10px;
+  font-size: 21px;
 }
 
-.card p,
-.ownerMeta span,
-.progressMeta {
-  color: #8c92a5;
-  font-size: 13px;
-  line-height: 1.45;
+.card p {
+  min-height: 64px;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
-.progressMeta {
-  margin-top: 18px;
-}
-
-.progressTrack {
-  height: 7px;
+.progressLine {
+  height: 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   overflow: hidden;
-  margin-top: 8px;
+  margin: 18px 0 10px;
 }
 
 .progressBar {
-  height: 100%;
-  border-radius: 999px;
-}
-
-.accentGreen {
-  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
-}
-
-.accentOrange {
-  background: linear-gradient(90deg, #f59e0b 0%, #fb7185 100%);
-}
-
-.accentPurple {
-  background: linear-gradient(90deg, #8b5cf6 0%, #d946ef 100%);
-}
-
-.accentSlate {
-  background: linear-gradient(90deg, #64748b 0%, #94a3b8 100%);
-}
-
-.ownerRow {
-  margin-top: 18px;
-  align-items: flex-end;
-}
-
-.ownerMeta {
-  margin-right: auto;
-}
-
-.ownerMeta strong {
   display: block;
-  font-size: 13px;
+  height: 100%;
+  border-radius: inherit;
 }
 
-.priorityHigh {
-  background: rgba(245, 158, 11, 0.16);
-  color: #fcd34d;
+.progressMeta {
+  font-size: 12px;
 }
 
-.priorityMedium {
-  background: rgba(148, 163, 184, 0.14);
-  color: #d2d6e2;
+.footer {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-@media (max-width: 1200px) {
+.footer strong {
+  display: block;
+  margin-top: 4px;
+}
+
+.green { background-color: rgba(34, 197, 94, 0.18); color: #9ae6b4; }
+.amber { background-color: rgba(245, 158, 11, 0.18); color: #fdd68a; }
+.purple { background-color: rgba(139, 92, 246, 0.18); color: #cdb5ff; }
+.slate { background-color: rgba(100, 116, 139, 0.2); color: #d5dbea; }
+.progressBar.green { background: linear-gradient(90deg, #22c55e, #86efac); }
+.progressBar.amber { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.progressBar.purple { background: linear-gradient(90deg, #8b5cf6, #c084fc); }
+.progressBar.slate { background: linear-gradient(90deg, #64748b, #cbd5e1); }
+
+@media (max-width: 1180px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 780px) {
   .grid {
     grid-template-columns: 1fr;
   }

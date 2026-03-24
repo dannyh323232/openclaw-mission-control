@@ -1,46 +1,152 @@
-.grid {
+.hero,
+.statCard,
+.nextCard,
+.snapshotCard,
+.workflowCard {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: linear-gradient(180deg, rgba(19, 25, 38, 0.95), rgba(10, 14, 22, 0.98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.hero {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.8fr);
+  gap: 16px;
+  padding: 20px;
+  margin-bottom: 18px;
+  background: linear-gradient(120deg, rgba(61, 72, 121, 0.42), rgba(9, 16, 28, 0.94));
+}
+
+.heroCopy h2 {
+  margin: 10px 0 12px;
+  font-size: 32px;
+  line-height: 1.12;
+  max-width: 760px;
+}
+
+.heroCopy p,
+.kicker,
+.sectionHeading span,
+.statCard span,
+.statCard small,
+.cardLabel,
+.nextCard p,
+.snapshotCard small,
+.snapshotCard p,
+.workflowCard p {
+  color: #95a0b7;
+}
+
+.heroCopy p {
+  max-width: 720px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.kicker,
+.cardLabel,
+.sectionHeading span {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.heroStats,
+.nextGrid,
+.snapshotGrid,
+.workflowGrid {
+  display: grid;
   gap: 16px;
 }
 
-.card {
-  min-height: 180px;
-  border-radius: 22px;
+.heroStats {
+  grid-template-columns: 1fr;
+}
+
+.statCard,
+.nextCard,
+.snapshotCard,
+.workflowCard {
   padding: 18px;
-  background: linear-gradient(180deg, rgba(19, 25, 38, 0.95), rgba(10, 14, 22, 0.98));
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.statCard strong {
+  display: block;
+  margin: 8px 0 6px;
+  font-size: 32px;
+}
+
+.section {
+  margin-top: 26px;
+}
+
+.sectionHeading {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
 }
 
-.kicker {
-  color: #93a0bb;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 11px;
-}
-
-.card strong {
+.sectionHeading h3 {
+  margin-top: 8px;
   font-size: 22px;
 }
 
-.card p,
-.card small {
-  color: #8e98ad;
+.nextGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.nextCard strong,
+.snapshotCard strong,
+.workflowCard strong {
+  display: block;
+  margin: 8px 0 10px;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.nextCard p,
+.snapshotCard p,
+.workflowCard p {
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
-.card small {
-  font-size: 12px;
+.snapshotGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-@media (max-width: 1080px) {
-  .grid {
+.snapshotCard a,
+.nextCard,
+.workflowCard {
+  color: inherit;
+}
+
+.snapshotCard a {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #c8d4ff;
+}
+
+.workflowGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1180px) {
+  .hero,
+  .nextGrid,
+  .workflowGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .snapshotGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .snapshotGrid {
     grid-template-columns: 1fr;
   }
 }

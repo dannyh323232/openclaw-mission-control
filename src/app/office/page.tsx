@@ -19,9 +19,15 @@ export default function OfficePage() {
     <AppChrome
       active="office"
       title="Office"
-      description="A stylised control-room floor plan with clearer desk zoning, live presence, and more deliberate visual structure."
-      controls={<><button>All working</button><button>Gather</button></>}
+      description="This remains the visual overview surface. It is useful for atmosphere and presence, but the real workflow still lives in Overview, Tasks, Calendar, Projects, and Approvals."
+      controls={<><button>Visual overview</button><button>Not the main workflow</button></>}
     >
+      <div className={styles.noticeCard}>
+        <span className={styles.sectionKicker}>What this page is for</span>
+        <strong>A visual presence map of the team floor, not the primary operating surface.</strong>
+        <p>Use this when you want a quick sense of who is where. Use the Team, Tasks, and Calendar pages when you need to make actual decisions or move work.</p>
+      </div>
+
       <div className={styles.layout}>
         <section className={styles.floor}>
           <div className={styles.commandRing}>Command table</div>
@@ -42,14 +48,14 @@ export default function OfficePage() {
           <div className={styles.liveCard}>
             <small>Live status</small>
             <strong>6 desks active · 2 idle</strong>
-            <p>No collisions in the queue. Command table is clear for the next council block.</p>
+            <p>The room is healthy. Nothing here replaces the structured workflow pages — it just gives you a visual read on the floor.</p>
           </div>
           <div className={styles.activityCard}>
-            <small>Recent movement</small>
+            <small>When to leave this page</small>
             <ul>
-              <li>Codex pushed a new UI pass to the console lane.</li>
-              <li>Henry queued one approval for CEO review.</li>
-              <li>Scout opened two new opportunity briefs.</li>
+              <li>Go to <strong>Tasks</strong> to move work between lanes.</li>
+              <li>Go to <strong>Calendar</strong> to manage time and daily focus.</li>
+              <li>Go to <strong>Team</strong> to inspect workload and responsibilities.</li>
             </ul>
           </div>
         </aside>

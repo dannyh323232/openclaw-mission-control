@@ -12,24 +12,31 @@ export default async function MemoryPage() {
     <AppChrome
       active="memory"
       title="Memory"
-      description="Memory now reads from the shared persisted model: long-term notes, dated entries, and operating context."
-      controls={<><button>Journal</button><button>{data.memoryEntries.length} entries</button></>}
+      description="Memory is now framed as a working reference: long-term assumptions on the left, current journal selection in the middle, and the selected entry clearly expanded."
+      controls={
+        <>
+          <button>{data.longTermNotes.length} standing notes</button>
+          <button>{data.memoryEntries.length} journal entries</button>
+        </>
+      }
     >
       <div className={styles.layout}>
         <aside className={styles.sidebar}>
           <div className={styles.featured}>
             <span>Long-term memory</span>
-            <strong>Operating assumptions, project state, and recurring lessons</strong>
+            <strong>Keep durable assumptions, recurring lessons, and operating rules here.</strong>
             <small>{data.longTermNotes.length} standing notes</small>
             <ul className={styles.noteList}>
               {data.longTermNotes.map((note) => <li key={note}>{note}</li>)}
             </ul>
           </div>
 
-          <div className={styles.sectionLabel}>Daily journal</div>
+          <div className={styles.sectionLabel}>Journal index</div>
+          <p className={styles.helperText}>The first entry is treated as the active selection in this MVP so the page reads like a proper two-pane reference surface.</p>
           <div className={styles.entryList}>
             {data.memoryEntries.map((entry, index) => (
               <div key={entry.id} className={`${styles.entry} ${index === 0 ? styles.entryActive : ""}`}>
+                <small>{entry.date}</small>
                 <strong>{entry.title}</strong>
                 <span>{entry.summary}</span>
               </div>
@@ -40,10 +47,13 @@ export default async function MemoryPage() {
         <section className={styles.document}>
           <div className={styles.docHeader}>
             <div>
-              <small>Latest memory entry</small>
+              <small>Selected journal entry</small>
               <h2>{selected.title}</h2>
+              <p>{selected.summary}</p>
             </div>
-            <span>{selected.tags.join(" · ")}</span>
+            <div className={styles.tagCluster}>
+              {selected.tags.map((tag) => <span key={tag}>{tag}</span>)}
+            </div>
           </div>
 
           <div className={styles.docBody}>

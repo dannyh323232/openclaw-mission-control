@@ -1,13 +1,21 @@
+.topRow,
 .grid,
-.formGrid {
+.formGrid,
+.statusGrid {
   display: grid;
   gap: 16px;
+}
+
+.topRow,
+.statusGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.summaryCard,
 .card,
 .composer,
 .formGrid input,
@@ -21,25 +29,38 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
+.topRow {
+  margin-bottom: 18px;
+}
+
+.summaryCard span,
+.sectionKicker,
+.topMeta small,
+.card p,
+.progressMeta span,
+.statusGrid small,
+.composer p {
+  color: #909ab0;
+}
+
+.summaryCard strong {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 30px;
+}
+
 .composer {
   margin-bottom: 18px;
 }
 
-.sectionKicker,
-.topRow small,
-.card p,
-.progressMeta span,
-.footer small {
-  color: #909ab0;
-}
-
 .composer h2 {
-  margin: 8px 0 14px;
+  margin: 8px 0 10px;
 }
 
 .formGrid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: end;
+  margin-top: 14px;
 }
 
 .formGrid input,
@@ -55,15 +76,14 @@
   background: linear-gradient(180deg, rgba(82, 102, 255, 0.4), rgba(84, 57, 188, 0.42));
 }
 
-.topRow,
-.progressMeta,
-.footer {
+.topMeta,
+.progressMeta {
   display: flex;
   justify-content: space-between;
   gap: 12px;
 }
 
-.topRow {
+.topMeta {
   align-items: center;
 }
 
@@ -106,13 +126,13 @@
   font-size: 12px;
 }
 
-.footer {
+.statusGrid {
   margin-top: 18px;
   padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.footer strong {
+.statusGrid strong {
   display: block;
   margin-top: 4px;
 }
@@ -137,14 +157,18 @@
 
 @media (max-width: 1180px) {
   .grid,
-  .formGrid {
+  .formGrid,
+  .topRow,
+  .statusGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 780px) {
   .grid,
-  .formGrid {
+  .formGrid,
+  .topRow,
+  .statusGrid {
     grid-template-columns: 1fr;
   }
 }

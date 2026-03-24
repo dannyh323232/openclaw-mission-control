@@ -1,5 +1,6 @@
 .hero,
-.card {
+.rowCard,
+.tableHeader {
   border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.07);
   background: rgba(255, 255, 255, 0.03);
@@ -17,18 +18,25 @@
 
 .hero span,
 .hero small,
-.card h3,
-.card p,
-.footer span {
+.hero p,
+.tableHeader,
+.nameCell small,
+.summaryCell p {
   color: #909ab0;
 }
 
 .hero strong {
   display: block;
-  margin-top: 8px;
+  margin: 8px 0;
   font-size: 22px;
   max-width: 560px;
   line-height: 1.35;
+}
+
+.hero p {
+  max-width: 620px;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .heroStats {
@@ -49,62 +57,88 @@
   font-size: 24px;
 }
 
-.grid {
+.tableHeader,
+.rowCard {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: 1.1fr 1fr 0.8fr 0.8fr 1fr 1.6fr;
+  gap: 14px;
+  align-items: center;
 }
 
-.card {
-  padding: 18px;
+.tableHeader {
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 
-.topRow,
-.footer {
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.rowCard {
+  padding: 16px;
+}
+
+.nameCell {
   display: flex;
-  justify-content: space-between;
   gap: 12px;
   align-items: center;
+}
+
+.nameCell strong,
+.metaCell strong,
+.loadCell strong {
+  display: block;
+}
+
+.avatar,
+.statusPill {
+  display: inline-grid;
+  place-items: center;
 }
 
 .avatar {
   width: 42px;
   height: 42px;
   border-radius: 14px;
-  display: grid;
-  place-items: center;
   color: white;
   font-weight: 700;
 }
 
-.loadPill {
+.statusPill {
+  min-height: 30px;
+  padding: 0 12px;
   border-radius: 999px;
-  padding: 7px 10px;
-  background: rgba(255, 255, 255, 0.05);
-  color: #dce5fb;
+  color: white;
+  text-transform: capitalize;
   font-size: 12px;
 }
 
-.card h2 {
-  margin: 16px 0 6px;
-  font-size: 20px;
+.loadCell {
+  display: grid;
+  gap: 8px;
 }
 
-.card h3 {
-  font-size: 13px;
+.loadBar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
 }
 
-.card p {
-  margin-top: 12px;
-  min-height: 88px;
+.loadBar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #8b5cf6, #38bdf8);
+}
+
+.summaryCell p {
   font-size: 14px;
   line-height: 1.55;
-}
-
-.footer {
-  padding-top: 14px;
-  margin-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
@@ -115,20 +149,15 @@
 .slate { background: linear-gradient(135deg, #64748b, #334155); }
 
 @media (max-width: 1180px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 780px) {
   .hero,
   .heroStats,
-  .grid {
+  .tableHeader,
+  .rowCard {
     grid-template-columns: 1fr;
     display: grid;
   }
 
-  .grid {
-    gap: 16px;
+  .tableHeader {
+    display: none;
   }
 }

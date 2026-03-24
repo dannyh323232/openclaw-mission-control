@@ -157,7 +157,11 @@
         "The local MVP should stay deliberately simple: one shared model, one persisted file, and enough CRUD to run the workflow by hand.",
         "Approvals deserve their own screen because that is the clearest CEO exception queue surface."
       ],
-      "tags": ["mission-control", "mvp", "ops"]
+      "tags": [
+        "mission-control",
+        "mvp",
+        "ops"
+      ]
     },
     {
       "id": "memory-2026-03-22",
@@ -168,7 +172,10 @@
         "Daniel needs concise exceptions, not another busy chat feed.",
         "Any polished UI still has to answer: what matters now, who owns it, and what is blocked?"
       ],
-      "tags": ["direction", "ceo-relay"]
+      "tags": [
+        "direction",
+        "ceo-relay"
+      ]
     }
   ],
   "agents": [
@@ -283,5 +290,54 @@
     "Workflow visibility beats aesthetics, but the aesthetics still need to communicate confidence.",
     "Mission Control should become the canonical shared state, with Discord and Telegram acting as surfaces on top.",
     "CEO mode is exceptions only: decisions, blockers, approvals, and high-risk actions."
+  ],
+  "managerRules": [
+    {
+      "id": "rule-exceptions-only",
+      "label": "Exceptions only reach Daniel",
+      "detail": "Routine status changes stay inside Mission Control. Only approvals, blockers, strategic decisions, and missing access go upward.",
+      "outcome": "The owner surface stays calm and useful instead of becoming another noisy chat feed."
+    },
+    {
+      "id": "rule-source-of-truth",
+      "label": "Mission Control owns shared state",
+      "detail": "Discord and Telegram are delivery surfaces, not independent databases. Work should be readable and updateable here first.",
+      "outcome": "Tasks, approvals, and handoffs stop fragmenting across tools."
+    },
+    {
+      "id": "rule-handoffs-visible",
+      "label": "Handoffs must be visible",
+      "detail": "When work moves between command, build, content, or systems, the transition should leave an event trail and a clear next owner.",
+      "outcome": "Cross-lane work does not disappear during reviews, approvals, or schedule changes."
+    }
+  ],
+  "relayChannels": [
+    {
+      "id": "relay-discord-ops",
+      "name": "Discord Ops Workspace",
+      "surface": "Discord",
+      "purpose": "Lane execution feed, project chatter, handoffs, and daily brief visibility.",
+      "status": "planned",
+      "readiness": "Event model and routing intent are now defined in-app.",
+      "blocker": "Needs real Discord bot credentials, channel mapping, and outbound webhook/client wiring."
+    },
+    {
+      "id": "relay-telegram-owner",
+      "name": "Telegram Owner Channel",
+      "surface": "Telegram",
+      "purpose": "CEO exception queue for approvals, urgent blockers, and strategic summaries only.",
+      "status": "planned",
+      "readiness": "Owner exception rules are reflected in manager logic and approval surfaces.",
+      "blocker": "Needs Telegram bot token, target chat configuration, and inbound command handling."
+    },
+    {
+      "id": "relay-system-hooks",
+      "name": "System Event Hooks",
+      "surface": "Discord",
+      "purpose": "Future fan-out point for notifications, digests, and automation triggers.",
+      "status": "blocked",
+      "readiness": "Prepared as a code structure target for adapters and payload builders.",
+      "blocker": "No external credentials or deployed runtime are attached yet."
+    }
   ]
 }

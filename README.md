@@ -5,7 +5,10 @@ Mission Control is the local operations cockpit for a coordinated AI office.
 ## Current MVP state
 Working now:
 - shared JSON-backed data model in `src/data/mission-control.json`
-- live-loaded pages for tasks, calendar, projects, approvals, memory, and team
+- live-loaded pages for manager, history, relay, tasks, calendar, projects, approvals, memory, and team
+- usable manager/system architecture surface inside the app
+- event/history visibility as a proper page, not just a small dashboard strip
+- relay readiness page that prepares Discord/Telegram contracts without faking live connectivity
 - CRUD for:
   - tasks: create, move between lanes, delete
   - projects: create, delete

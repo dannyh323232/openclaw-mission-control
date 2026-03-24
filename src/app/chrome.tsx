@@ -1,7 +1,18 @@
 import Link from "next/link";
 import shell from "./shared-shell.module.css";
 
-export type NavKey = "home" | "tasks" | "calendar" | "projects" | "approvals" | "memory" | "team" | "office";
+export type NavKey =
+  | "home"
+  | "manager"
+  | "history"
+  | "relay"
+  | "tasks"
+  | "calendar"
+  | "projects"
+  | "approvals"
+  | "memory"
+  | "team"
+  | "office";
 
 type ChromeProps = {
   active: NavKey;
@@ -21,7 +32,9 @@ const navGroups: NavGroup[] = [
     label: "Command",
     items: [
       { key: "home", label: "Overview", href: "/", icon: "◉", hint: "What needs attention next" },
+      { key: "manager", label: "Manager", href: "/manager", icon: "◬", hint: "Routing rules + operating system" },
       { key: "approvals", label: "Approvals", href: "/approvals", icon: "◈", hint: "CEO exception queue" },
+      { key: "history", label: "History", href: "/history", icon: "◍", hint: "Event trail + handoff visibility" },
     ],
   },
   {
@@ -30,6 +43,7 @@ const navGroups: NavGroup[] = [
       { key: "tasks", label: "Tasks", href: "/tasks", icon: "◎", hint: "Execution board + handoffs" },
       { key: "calendar", label: "Calendar", href: "/calendar", icon: "◫", hint: "Schedules + today focus" },
       { key: "projects", label: "Projects", href: "/projects", icon: "◩", hint: "Portfolio health + delivery" },
+      { key: "relay", label: "Relay", href: "/relay", icon: "◌", hint: "Discord + Telegram readiness" },
     ],
   },
   {
@@ -45,13 +59,23 @@ const navGroups: NavGroup[] = [
 const pageContext: Record<NavKey, { prompt: string; primary: { label: string; href: string }; secondary?: { label: string; href: string } }> = {
   home: {
     prompt: "Start with the operating summary, then open the next surface that clears pressure fastest.",
-    primary: { label: "Open approvals", href: "/approvals" },
-    secondary: { label: "Run tasks", href: "/tasks" },
+    primary: { label: "Open manager", href: "/manager" },
+    secondary: { label: "Open approvals", href: "/approvals" },
+  },
+  manager: {
+    prompt: "This is the orchestration layer: intake, routing, escalation rules, and the current command posture.",
+    primary: { label: "Open history", href: "/history" },
+    secondary: { label: "Open tasks", href: "/tasks" },
   },
   approvals: {
     prompt: "Clear waiting decisions first, then return to tasks and calendar once the queue is unblocked.",
     primary: { label: "Back to overview", href: "/" },
     secondary: { label: "Open tasks", href: "/tasks" },
+  },
+  history: {
+    prompt: "Use the event trail to explain what changed, who moved it, and where work got stuck or handed off.",
+    primary: { label: "Open relay", href: "/relay" },
+    secondary: { label: "Open manager", href: "/manager" },
   },
   tasks: {
     prompt: "Move work through now → building → review and escalate only when something truly needs a decision.",
@@ -67,6 +91,11 @@ const pageContext: Record<NavKey, { prompt: string; primary: { label: string; hr
     prompt: "Use projects to inspect delivery health, then jump back into tasks or approvals to change the underlying state.",
     primary: { label: "Open tasks", href: "/tasks" },
     secondary: { label: "Open approvals", href: "/approvals" },
+  },
+  relay: {
+    prompt: "Prepare external surfaces here without pretending the real credentials or bots already exist.",
+    primary: { label: "Open history", href: "/history" },
+    secondary: { label: "Back to overview", href: "/" },
   },
   memory: {
     prompt: "Reference durable notes here, then return to the operating pages when you need to act.",
@@ -102,7 +131,7 @@ export function AppChrome({ active, title, description, controls, children }: Ch
         <div className={shell.missionCard}>
           <span className={shell.sidebarSectionLabel}>Current posture</span>
           <strong>Run the day from one place</strong>
-          <p>Use Overview to orient, Tasks to move work, Calendar to shape time, Projects to inspect delivery health, and Approvals only when Daniel needs to decide.</p>
+          <p>Use Overview to orient, Manager to route, Tasks to move work, Calendar to shape time, Projects to inspect delivery health, and Approvals only when Daniel needs to decide.</p>
         </div>
 
         {navGroups.map((group) => (
@@ -129,7 +158,7 @@ export function AppChrome({ active, title, description, controls, children }: Ch
         <div className={shell.sidebarCard}>
           <div>
             <strong>Operating loop</strong>
-            <span>Overview → Tasks → Calendar → Projects → Approvals</span>
+            <span>Overview → Manager → Tasks → Calendar → Projects → Approvals → History</span>
           </div>
           <b>Live</b>
         </div>

@@ -1,4 +1,4 @@
-import type { ApprovalStatus, Health, Priority, TaskLane } from "./types";
+import type { ApprovalStatus, Health, Priority, RelayStatus, TaskLane } from "./types";
 
 export const laneMeta: Record<TaskLane, { label: string; badge: string; tone: "purple" | "blue" | "amber" | "green" }> = {
   now: { label: "Now", badge: "Hot", tone: "purple" },
@@ -25,6 +25,12 @@ export const approvalTone: Record<ApprovalStatus, "purple" | "green" | "amber"> 
   pending: "amber",
   approved: "green",
   rejected: "purple",
+};
+
+export const relayTone: Record<RelayStatus, "green" | "amber" | "purple"> = {
+  ready: "green",
+  planned: "amber",
+  blocked: "purple",
 };
 
 export function formatDate(value: string) {

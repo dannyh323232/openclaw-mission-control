@@ -3,6 +3,7 @@ export type Priority = "low" | "medium" | "high" | "critical";
 export type Health = "on-track" | "at-risk" | "blocked" | "planning";
 export type ApprovalStatus = "pending" | "approved" | "rejected";
 export type AgentStatus = "online" | "busy" | "idle";
+export type RelayStatus = "ready" | "blocked" | "planned";
 
 export type Task = {
   id: string;
@@ -72,6 +73,23 @@ export type Event = {
   message: string;
 };
 
+export type ManagerRule = {
+  id: string;
+  label: string;
+  detail: string;
+  outcome: string;
+};
+
+export type RelayChannel = {
+  id: string;
+  name: string;
+  surface: "Discord" | "Telegram";
+  purpose: string;
+  status: RelayStatus;
+  readiness: string;
+  blocker: string;
+};
+
 export type MissionControlData = {
   tasks: Task[];
   projects: Project[];
@@ -81,4 +99,6 @@ export type MissionControlData = {
   approvals: Approval[];
   events: Event[];
   longTermNotes: string[];
+  managerRules: ManagerRule[];
+  relayChannels: RelayChannel[];
 };

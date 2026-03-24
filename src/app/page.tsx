@@ -25,6 +25,9 @@ const nextStepCards = [
 ] as const;
 
 const workflowCards = [
+  ["Manager", "/manager", "Run routing, escalation logic, and the real operating system behind the board."],
+  ["History", "/history", "Inspect the event trail so task movement and approvals stay explainable."],
+  ["Relay", "/relay", "Prepare Discord and Telegram as outputs from Mission Control instead of rival systems."],
   ["Projects", "/projects", "Track health, owner, due date, and delivery pressure across initiatives."],
   ["Memory", "/memory", "Hold operating notes, recent journal entries, and assumptions worth keeping."],
   ["Team", "/team", "See who owns what, who is overloaded, and where capacity is available."],
